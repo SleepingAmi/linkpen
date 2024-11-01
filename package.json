@@ -1,0 +1,29 @@
+{
+  "name": "linkpen",
+  "version": "1.0.0",
+  "description": "Fun fact: Originally titled [\"friendly system\"](https://cdn.hydraulisc.net/MNx6GNg9TybX.png)",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SleepingAmi/linkpen.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/SleepingAmi/linkpen/issues"
+  },
+  "homepage": "https://github.com/SleepingAmi/linkpen#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.8",
+    "express": "^4.19.2",
+    "firebase": "^8.10.1",
+    "firebase-admin": "^11.11.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.0"
+  }
+}
