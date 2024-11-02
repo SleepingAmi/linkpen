@@ -36,12 +36,12 @@ npm install
 
 4. Start the development server:
 ```bash
-node server.js
+npm run dev
 ```
 
 ## First Steps
 
-1. Visit `http://localhost:5500` in your browser
+1. Visit `http://localhost:5500` (replace 5500 with your port) in your browser
 2. Create an account through the sign-up button
 3. Choose your custom URL
 4. Start adding your links!

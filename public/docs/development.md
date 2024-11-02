@@ -7,31 +7,31 @@ This guide covers everything you need to know about developing with LinkPen.
 ```
 linkpen/
 ├── public/
-│   ├── css/         # Stylesheets
-│   ├── img/         # Images and assets
-│   ├── templates/   # Page templates       <-- i think?? - sooox
-│   └── docs/        # Documentation
+│   ├── css/                # Stylesheets
+│   ├── img/                # Images and assets
+│   ├── templates/          # Templates
+│   └── docs/               # Documentation
 ├── views/
-│   ├── pages/       # EJS page templates
-│   └── partials/    # Reusable EJS components
-├── server.js        # Main application file
-└── global-variables.json
+│   ├── pages/              # EJS page templates
+│   └── partials/           # Reusable EJS components
+├── server.js               # Main application file
+└── global-variables.json   # Global Variables
 ```
 
 ## Local Development
 
-1. Set up your development environment:
+1. If you haven't already, install dependencies:
 ```bash
 # Install development dependencies
-npm install --save-dev nodemon
+npm install
 ```
 
 2. Start development server with auto-reload:
 ```bash
-npx nodemon server.js
+npm run dev
 ```
 
-## Creating Templates (im not sure of any of this yet - sooox)
+## Creating Templates <!-- (im not sure of any of this yet - sooox) -->
 
 Templates are stored in `public/templates/`. To create a new template:
 
@@ -39,13 +39,14 @@ Templates are stored in `public/templates/`. To create a new template:
 ```bash
 mkdir public/templates/my-template
 ```
+or right-click and "create new folder"
 
 2. Required files:
 ```
 my-template/
 ├── template.ejs    # Template markup
-├── style.css      # Template styles
-└── config.json    # Template configuration
+├── style.css       # Template styles
+└── config.json     # Template configuration
 ```
 
 ## Contributing
@@ -69,8 +70,8 @@ git push origin feature/my-new-feature
 
 - Use ESLint for JavaScript code style
 - Follow the existing project structure
-- Comment your code when necessary
-- Add to documentation
+- Comment your code, adding documentation
+- Add changes to /public/docs
 - Write meaningful commit messages
 
 ## Building Features

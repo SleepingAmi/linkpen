@@ -47,7 +47,8 @@ app.get('/:id', async (req, res) => {
     } else {*/
         res.render('pages/index', {
             siteTitle,
-            discordInvite
+            discordInvite,
+            rootDomain
         })
     //}
 })
