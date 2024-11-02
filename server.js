@@ -32,7 +32,8 @@ app.listen(port, function(){
 app.get('/', async (req, res) => {
     res.render('pages/index',{
         siteTitle,
-        discordInvite
+        discordInvite,
+        rootDomain
     })
 })
 
