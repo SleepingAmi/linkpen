@@ -73,7 +73,8 @@ div#page_header_container .page_header {
     margin-left: auto;
     margin-right: auto;
     padding: 8px;
-    background-color: #292c3c;
+    background-color: rgba(41, 44, 60, 0.9); /* Thanks @soox-cc for the amazing transparent background w/blur FX! */
+    backdrop-filter: blur(20px);
     border-radius: 24px;
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.08);
@@ -469,6 +470,29 @@ div#page_header_container .page_header {
     font-size: 1.125rem;
 }
 
+.footer_container {
+    padding: 1.25rem 0px;
+    gap: 1rem;
+    place-items: center;
+    place-content: space-between;
+    flex-direction: column;
+    display: flex;
+}
+
+.footer_content {
+    padding: 0px 2rem;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.footer_text {
+    line-height: 2;
+    font-size: .88rem;
+    margin: 0;
+}
+
 @media screen and (min-width: 1460px) {
     .page_header_content {
         max-width: 1728px;
@@ -592,6 +616,18 @@ div#page_header_container .page_header {
     .features_grid_container {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         max-width: 64rem;
+    }
+    .footer_container {
+        flex-direction: row;
+    }
+    .footer_content {
+        padding-left: 0;
+        padding-right: 0;
+        gap: .5rem;
+        flex-direction: row;
+    }
+    .footer_text {
+        text-align: left;
     }
 }
 
