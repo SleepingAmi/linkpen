@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%- siteTitle %></title>
+    <meta property="og:title" content="linkpen">
+    <meta property="og:description" content="linkpen aims to make short, customizable, link-in-bio's available for everyone. Free, forever. Create a simple link to organise everything you create, curate or sell from anywhere online.">
+    <meta property="og:image" content="/img/sNTuUGsyXN2v.png.png">
+    <meta property="og:url" content="<%- rootDomain %>">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/png" href="/img/sNTuUGsyXN2v.png.png">
 </head>
@@ -98,6 +102,7 @@
                     <p>linkpen is an open source project.<br>The code is available on <a href="https://github.com/sleepingami/linkpen" target="_blank" rel="noopener noreferrer" style="text-decoration: underline !important;">GitHub</a>.</p>
                 </div>
             </div>
+            <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
         </div>
     </div>
 </body>

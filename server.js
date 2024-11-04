@@ -4,6 +4,7 @@ const firebase = require('firebase');
 const admin = require('firebase-admin');
 const multer = require('multer');
 const bodyParser = require('body-parser');
+const { version } = require('./package.json')
 const { rootDomain, hostPort, siteTitle, discordInvite } = require('./global-variables.json')
 
 const port = hostPort || 8800;
@@ -33,7 +34,8 @@ app.get('/', async (req, res) => {
     res.render('pages/index',{
         siteTitle,
         discordInvite,
-        rootDomain
+        rootDomain,
+        version
     })
 })
 
@@ -49,7 +51,8 @@ app.get('/:id', async (req, res) => {
         res.render('pages/index', {
             siteTitle,
             discordInvite,
-            rootDomain
+            rootDomain,
+            version
         })
     //}
 })
