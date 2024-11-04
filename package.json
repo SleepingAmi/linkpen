@@ -1,6 +1,6 @@
 {
   "name": "linkpen",
-  "version": "1.0.0",
+  "version": "1.0.03",
   "description": "Fun fact: Originally titled [\"friendly system\"](https://cdn.hydraulisc.net/MNx6GNg9TybX.png)",
   "main": "server.js",
   "scripts": {
