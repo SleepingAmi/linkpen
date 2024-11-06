@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%- siteTitle %></title>
-    <meta property="og:title" content="linkpen">
-    <meta property="og:description" content="linkpen aims to make short, customizable, link-in-bio's available for everyone. Free, forever. Create a simple link to organise everything you create, curate or sell from anywhere online.">
-    <meta property="og:image" content="/img/sNTuUGsyXN2v.png.png">
-    <meta property="og:url" content="<%- rootDomain %>">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" type="image/png" href="/img/sNTuUGsyXN2v.png.png">
-</head>
+<%- include('../partials/head', {siteTitle, rootDomain}) %>
 <body class="darkTheme">
     <div class="responsive">
         <div class="pager" style="outline: none;" tabindex="-1">
@@ -18,90 +8,12 @@
             <div class="main_div_one">
                 <div class="main_div_container">
                     <div class="main_div_content">
-                        <div class="slogan_container">
-                            <div class="slogan_color">
-                                <div class="slogan_content">
-                                    <div class="slogan_text_container">
-                                        <div class="slogan_text_content">
-                                            <div class="slogan_text_title">
-                                                <h1>Connecting the dots, your way.</h1>
-                                            </div>
-                                            <div class="slogan_text_subcontent">
-                                                <div class="slogan_text_align">
-                                                    <div class="slogan_text_style">
-                                                        <p>One link to help you share everything you create, curate or sell from your YouTube, Hydraulisc and all other social media profiles.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="spacer"></div>
-                                        </div>
-                                    </div>
-                                    <div class="handleCreationModule">
-                                        <div class="onboarding_feature_container">
-                                            <div class="onboarding_feature">
-                                                <div style="display: flex; box-sizing: border-box; min-width: 0px; -webkit-box-pack: start; justify-content: flex-start;">
-                                                    <form autocomplete="off" spellcheck="false" autocapitalize="off" class="onboardingForm">
-                                                        <div class="fancyWrapper">
-                                                            <p><%- siteTitle %>/</p>
-                                                            <input placeholder="yourname"></input>
-                                                        </div>
-                                                        <div class="signup_button_container">
-                                                            <button class="signup_button">
-                                                                <div class="inner_signup_button">
-                                                                    <span style="white-space: nowrap; font-size: 14px; font-weight: 400; letter-spacing: 0.01em; line-height: 1.5; color: #232634;">Create your linkpen</span>
-                                                                </div>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <%- include('../partials/hero') %>
                     </div>
                 </div>
             </div>
-            <div class="main_div_two">
-                <div class="features_text_container">
-                    <h2 class="feature_list_title">Features</h2>
-                    <p class="feature_list_text">linkpen is easily customizable, and deploying your own instance is as easy as one, two, host!</p>
-                </div>
-                <div class="features_grid_container">
-                    <div class="feature_grid_area">
-                        <div class="feature_grid_content">
-                            <div class="feature_grid_text">
-                                <h3>Customizable</h3>
-                                <p>Make linkpen yours, with custom themes and templates</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature_grid_area">
-                        <div class="feature_grid_content">
-                            <div class="feature_grid_text">
-                                <h3>Sharing links</h3>
-                                <p>Share all your links with a single, short <%- siteTitle %> link</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature_grid_area">
-                        <div class="feature_grid_content">
-                            <div class="feature_grid_text">
-                                <h3>Free, Forever</h3>
-                                <p>No subscription fees or hidden costs</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="spacer"></div>
-            </div>
-            <div class="main_div_three">
-                <div class="open_sauce_banner">
-                    <h2 class="feature_list_title">Proudly Open Source</h2>
-                    <p>linkpen is an open source project.<br>The code is available on <a href="https://github.com/sleepingami/linkpen" target="_blank" rel="noopener noreferrer" style="text-decoration: underline !important;">GitHub</a>.</p>
-                </div>
-            </div>
+            <%- include('../partials/features', {siteTitle}) %>
+            <%- include('../partials/openSource') %>
             <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
         </div>
     </div>

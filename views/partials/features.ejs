@@ -1,0 +1,21 @@
+<div class="main_div_two">
+    <div class="features_text_container">
+        <h2 class="feature_list_title">Features</h2>
+        <p class="feature_list_text">linkpen is easily customizable, and deploying your own instance is as easy as one, two, host!</p>
+    </div>
+    <div class="features_grid_container">
+        <%- include('./featureCard', {
+            title: 'Customizable',
+            description: 'Make linkpen yours, with custom themes and templates'
+        }) %>
+        <%- include('./featureCard', {
+            title: 'Sharing links',
+            description: 'Share all your links with a single, short ' + siteTitle + ' link'
+        }) %>
+        <%- include('./featureCard', {
+            title: 'Free, Forever',
+            description: 'No subscription fees or hidden costs'
+        }) %>
+    </div>
+    <div class="spacer"></div>
+</div>
