@@ -1,9 +1,10 @@
 {
   "name": "linkpen",
-  "version": "1.0.03",
-  "description": "Fun fact: Originally titled [\"friendly system\"](https://cdn.hydraulisc.net/MNx6GNg9TybX.png)",
+  "version": "1.0.1",
+  "description": "Free, customizable, link-in-bio's for everyone!",
   "main": "server.js",
   "scripts": {
+    "test": "echo run npm run start to start the server or npm run dev for debugging",
     "dev": "nodemon server",
     "start": "node server.js"
   },
@@ -11,19 +12,18 @@
     "type": "git",
     "url": "git+https://github.com/SleepingAmi/linkpen.git"
   },
-  "author": "",
+  "author": "SleepingAmi and Frens",
   "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/SleepingAmi/linkpen/issues"
   },
   "homepage": "https://github.com/SleepingAmi/linkpen#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.46.1",
     "body-parser": "^1.20.3",
-    "ejs": "^3.1.8",
-    "express": "^4.19.2",
-    "firebase": "^8.10.1",
-    "firebase-admin": "^11.11.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.7"
   }
 }
