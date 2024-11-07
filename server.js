@@ -1,15 +1,14 @@
 const express = require('express');
 const ejs = require('ejs');
-const firebase = require('firebase');
-const admin = require('firebase-admin');
+const { createClient } = require('@supabase/supabase-js');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const { version } = require('./package.json')
-const { rootDomain, hostPort, siteTitle, discordInvite } = require('./global-variables.json')
+const { rootDomain, hostPort, siteTitle, discordInvite, supabase_url, supabase_anon_key } = require('./global-variables.json')
 
 const port = hostPort || 8800;
 
-// kickstart express
+// kickstart express & supabase
 const app = express();
 
 app.use(function(req, res, next) {
@@ -23,6 +22,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+
+const supabaseUrl = supabase_url;
+const supabaseKey = supabase_anon_key;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // listen to app
 app.listen(port, function(){
