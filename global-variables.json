@@ -1,6 +1,8 @@
 {
-    "rootDomain": "https://linkpen.xyz",
+    "rootDomain": "http://your.domain.xyz",
     "hostPort": "5500",
     "siteTitle": "linkpen",
-    "discordInvite": "https://discord.gg/pbV2eFEHBt"
+    "discordInvite": "https://discord.gg/your_invite_code",
+    "supabase_url": "https://your-supabase-url.co",
+    "supabase_anon_key": "your_private_supabase_key"
 }
