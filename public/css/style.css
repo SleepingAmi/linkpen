@@ -368,6 +368,8 @@ div#page_header_container .page_header {
     min-width: 0px;
     padding: 19px var(--spacing-sm);
     border-radius: var(--radius-sm);
+    color: var(--color-feature);
+    text-shadow: none;
 }
 
 .fancyWrapper p {
