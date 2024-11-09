@@ -4,7 +4,7 @@ const { createClient } = require('@supabase/supabase-js');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const { version } = require('./package.json')
-const { rootDomain, hostPort, siteTitle, discordInvite, supabase_url, supabase_anon_key } = require('./global-variables.json')
+const { rootDomain, hostPort, siteTitle, discordInvite, supabase_url, supabase_anon_key, isPublic } = require('./global-variables.json')
 
 const port = hostPort || 8800;
 
@@ -32,7 +32,7 @@ app.listen(port, function(){
     console.log('Online: ' + port);
 })
 
-
+// GET / (landing page)
 app.get('/', async (req, res) => {
     res.render('pages/index',{
         siteTitle,
@@ -42,20 +42,31 @@ app.get('/', async (req, res) => {
     })
 })
 
-/*
-    TO-DO:
-        - CUSTOM REDIRECTS FOR /AUTH AND OTHER APP ROUTES
-        - ACCOUNTS AND DATABASE
+/* @endpoint filter
+    Endpoints to filter out, as the below implementation will otherwise find any matching record in the database.
+    **WARNING!!!**
+    This does not filter out said endpoints from being registered against your database!
+    Adding any endpoints to the filter can cause user pages to be unreachable!
+        Modify at your own risk, but with caution.
+            - SleepingAmi
 */
+const filteredEndpoints = ['auth'];
+
+// GET any :id
 app.get('/:id', async (req, res) => {
-    /*if (req.params.id === 'auth') {
-        res.render('pages/auth')
-    } else {*/
+    if (filteredEndpoints.includes(req.params.id)) {
+        res.render(`pages/${req.params.id}`, {
+            siteTitle,
+            version,
+            rootDomain,
+            isPublic
+        })
+    } else {
         res.render('pages/index', {
             siteTitle,
             discordInvite,
             rootDomain,
             version
         })
-    //}
+    }
 })

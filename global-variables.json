@@ -4,5 +4,6 @@
     "siteTitle": "linkpen",
     "discordInvite": "https://discord.gg/your_invite_code",
     "supabase_url": "https://your-supabase-url.co",
-    "supabase_anon_key": "your_private_supabase_key"
+    "supabase_anon_key": "your_private_supabase_key",
+    "isPublic": false
 }
