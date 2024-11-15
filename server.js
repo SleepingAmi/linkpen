@@ -39,7 +39,7 @@ app.use(session({
     secret: database_key,       // Replace with a strong, random secret key
     resave: false,              // Avoid resaving unchanged sessions
     saveUninitialized: true,    // Save uninitialized sessions
-    cookie: { secure: false }   // Set to false if not using HTTPS
+    cookie: { secure: true }   // Set to false if not using HTTPS
 }));
 
 
