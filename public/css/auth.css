@@ -46,13 +46,19 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.authHead {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+}
+
 .container {
-    width: var(--wrapper-width);
-    background-color: var(--color-surface);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 8px var(--color-shadow);
-    text-align: center;
+    width: var(--wrapper-width) !important;
+    background-color: var(--color-surface) !important;
+    padding: var(--spacing-md) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 4px 8px var(--color-shadow) !important;
+    text-align: center !important;
 }
 
 h1 {

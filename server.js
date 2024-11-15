@@ -1,15 +1,47 @@
 const express = require('express');
 const ejs = require('ejs');
-const { createClient } = require('@supabase/supabase-js');
 const multer = require('multer');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const bodyParser = require('body-parser');
 const { version } = require('./package.json')
-const { rootDomain, hostPort, siteTitle, discordInvite, supabase_url, supabase_anon_key, isPublic } = require('./global-variables.json')
+const { rootDomain, hostPort, siteTitle, discordInvite, database_key, isPublic } = require('./global-variables.json')
 
 const port = hostPort || 8800;
 
-// kickstart express & supabase
+// kickstart express & database
 const app = express();
+
+// Initialize SQLite database
+const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
+    if (err) {
+        console.error('Error connecting to SQLite database:', err.message);
+    } else {
+        console.log('Connected to the SQLite database.');
+    }
+});
+
+db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
+)`, (err) => {
+    if (err) {
+        console.error('Error creating users table:', err.message);
+    } else {
+        console.log('users table is ready.');
+    }
+});
+
+const session = require('express-session');
+
+app.use(session({
+    secret: database_key,       // Replace with a strong, random secret key
+    resave: false,              // Avoid resaving unchanged sessions
+    saveUninitialized: true,    // Save uninitialized sessions
+    cookie: { secure: false }   // Set to false if not using HTTPS
+}));
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -23,9 +55,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-const supabaseUrl = supabase_url;
-const supabaseKey = supabase_anon_key;
-const supabase = createClient(supabaseUrl, supabaseKey);
+app.use('/api', require('./routes/api'));
 
 // listen to app
 app.listen(port, function(){
@@ -59,10 +89,11 @@ app.get('/:id', async (req, res) => {
             siteTitle,
             version,
             rootDomain,
-            isPublic
+            isPublic,
+            discordInvite
         })
     } else {
-        res.render('pages/index', {
+        res.render('pages/template', {
             siteTitle,
             discordInvite,
             rootDomain,

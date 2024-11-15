@@ -5,28 +5,37 @@
     <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body class="darkTheme">
+    <div class="authHead">
+        <div class="navContainer">
+            <div class="nav">
+                <a href="<%- rootDomain %>">
+                    <div class="title">
+                        <h1><%- siteTitle %></h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="container" id="register" style="display: none;">
         <h1>Register</h1>
         <form action="/api/register" method="post">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
             
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
             
             <input type="submit" value="Register">
         </form>
-        <p class="toggle">Already have an account? <a href="#login" onclick="document.getElementById('register').style.display='none';document.getElementById('login').style.display='block';">Login</a></p>
+        <p class="toggle" style="color: #c6d0f5;">Already have an account? <a href="#login" onclick="document.getElementById('register').style.display='none';document.getElementById('login').style.display='block';">Login</a></p>
     </div>
 
     <div class="container" id="login">
         <h1>Login</h1>
         <form action="/api/login" method="post">
-            <label for="username-login">Email</label>
-            <input type="email" id="email-login" name="email" required>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
             
             <label for="password-login">Password</label>
             <input type="password" id="password-login" name="password" required>
@@ -34,7 +43,7 @@
             <input type="submit" value="Login">
         </form>
         <% if (isPublic) { %>
-            <p class="toggle">Don't have an account? <a href="#register" onclick="document.getElementById('login').style.display='none';document.getElementById('register').style.display='block';">Register</a></p>
+            <p class="toggle" style="color: #c6d0f5;">Don't have an account? <a href="#register" onclick="document.getElementById('login').style.display='none';document.getElementById('register').style.display='block';">Register</a></p>
         <% } else { %>
             <p class="toggle">This instance isn't currently accepting new users.</p>
         <% } %>
