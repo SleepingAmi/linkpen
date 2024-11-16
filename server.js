@@ -42,11 +42,18 @@ app.use(session({
     cookie: { secure: true }   // Set to false if not using HTTPS
 }));
 
-
-app.use(function(req, res, next) {
+// CORS and cache headers middleware
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Cache-Control", "no-cache");
+    next();
+});
+
+// User session and locals middleware
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    res.locals.isPublic = isPublic;
     next();
 });
 
@@ -55,16 +62,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
+// Route handlers
 app.use('/api', require('./routes/api'));
-
-// listen to app
-app.listen(port, function(){
-    console.log('Online: ' + port);
-})
+app.use('/', require('./routes/auth'));
 
 // GET / (landing page)
 app.get('/', async (req, res) => {
-    res.render('pages/index',{
+    res.render('pages/index', {
         siteTitle,
         discordInvite,
         rootDomain,
@@ -80,24 +84,72 @@ app.get('/', async (req, res) => {
         Modify at your own risk, but with caution.
             - SleepingAmi
 */
-const filteredEndpoints = ['auth'];
+
+// Special routes that should be checked before user pages
+const specialRoutes = ['about'];
 
 // GET any :id
 app.get('/:id', async (req, res) => {
-    if (filteredEndpoints.includes(req.params.id)) {
-        res.render(`pages/${req.params.id}`, {
+    // First check if this is a special route
+    if (specialRoutes.includes(req.params.id)) {
+        return res.render(`pages/${req.params.id}`, {
             siteTitle,
             version,
             rootDomain,
             isPublic,
             discordInvite
-        })
-    } else {
-        res.render('pages/template', {
-            siteTitle,
-            discordInvite,
-            rootDomain,
-            version
-        })
+        });
     }
-})
+
+    // If not a special route, check if it's a user page
+    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, user) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Database error');
+        }
+
+        if (user) {
+            // This is a user page
+            res.render('pages/template', {
+                siteTitle,
+                discordInvite,
+                rootDomain,
+                version,
+                user
+            });
+        } else {
+            // Not a user page, send 404
+            res.status(404).render('pages/404', {
+                siteTitle,
+                discordInvite,
+                rootDomain,
+                version
+            });
+        }
+    });
+});
+
+// Start the server
+const server = app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+// Handle server errors
+server.on('error', (error) => {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    switch (error.code) {
+        case 'EACCES':
+            console.error(`Port ${port} requires elevated privileges`);
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(`Port ${port} is already in use`);
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+});

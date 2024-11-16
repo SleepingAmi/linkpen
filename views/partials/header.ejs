@@ -12,39 +12,86 @@
                                 </div>
                             </a>
                             <div class="nav_options">
-                                <a class="menuitem" href="https://github.com/SleepingAmi/linkpen/tree/main/public/templates">
-                                    <div class="nav_option">    
-                                        <span style="white-space: nowrap; font-size: 15px; line-height: 1.5;">templates</span>
+                                <a class="menuitem"
+                                    href="https://github.com/SleepingAmi/linkpen/tree/main/public/templates">
+                                    <div class="nav_option">
+                                        <span
+                                            style="white-space: nowrap; font-size: 15px; line-height: 1.5;">templates</span>
                                     </div>
                                 </a>
                                 <a class="menuitem" href="/about">
-                                    <div class="nav_option">    
-                                        <span style="white-space: nowrap; font-size: 15px; line-height: 1.5;">about</span>        
+                                    <div class="nav_option">
+                                        <span
+                                            style="white-space: nowrap; font-size: 15px; line-height: 1.5;">about</span>
                                     </div>
                                 </a>
                                 <a class="menuitem" href="<%- discordInvite %>">
-                                    <div class="nav_option">    
-                                        <span style="white-space: nowrap; font-size: 15px; line-height: 1.5;">discord</span>        
+                                    <div class="nav_option">
+                                        <span
+                                            style="white-space: nowrap; font-size: 15px; line-height: 1.5;">discord</span>
                                     </div>
                                 </a>
                                 <a class="menuitem" href="https://github.com/SleepingAmi/linkpen/tree/main/public/docs">
-                                    <div class="nav_option">    
-                                        <span style="white-space: nowrap; font-size: 15px; line-height: 1.5;">learn</span>        
+                                    <div class="nav_option">
+                                        <span
+                                            style="white-space: nowrap; font-size: 15px; line-height: 1.5;">learn</span>
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div style="min-width: 0;" class="authbuttons">
-                        <div class="auth_btn_container">
-                            <div class="auth_btn">
-                                <a class="auth_action" href="/auth" target="_self" tabindex="0">
-                                    <div class="auth_btn_content">
-                                        <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">sign in</span>
-                                    </div>
-                                </a>
+                    <div style="min-width: 0; display: flex;" class="authbuttons">
+                        <% if (locals.user) { %>
+                            <!-- Logged in user menu -->
+                            <div class="auth_btn_container" style="display: flex; gap: 8px;">
+                                <div class="auth_btn">
+                                    <a class="auth_action" href="/<%- user.username %>" tabindex="0">
+                                        <div class="auth_btn_content">
+                                            <span
+                                                style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                <%- user.username %>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="auth_btn">
+                                    <a class="auth_action" href="/api/logout" tabindex="0">
+                                        <div class="auth_btn_content">
+                                            <span
+                                                style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                logout
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                            <% } else { %>
+                                <!-- Login/Register buttons -->
+                                <div class="auth_btn_container" style="display: flex; gap: 8px;">
+                                    <div class="auth_btn">
+                                        <a class="auth_action" href="/login" tabindex="0">
+                                            <div class="auth_btn_content">
+                                                <span
+                                                    style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                    login
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <% if (isPublic) { %>
+                                        <div class="auth_btn">
+                                            <a class="auth_action" href="/register" tabindex="0">
+                                                <div class="auth_btn_content">
+                                                    <span
+                                                        style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                        register
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <% } %>
                     </div>
                 </div>
             </div>
