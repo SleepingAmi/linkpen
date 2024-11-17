@@ -1,0 +1,114 @@
+/* Layout */
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body.darkTheme {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content */
+.main_div_one {
+    flex: 1 0 auto;
+    min-height: calc(100vh - var(--header-height) - 100px);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+    width: 100%;
+}
+
+/* Profile styles */
+.profile_container {
+    width: 100%;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    flex: 1;
+}
+
+.profile_header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.profile_header h1 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+    font-weight: var(--font-bold);
+}
+
+.edit_button {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-feature);
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-sm);
+    transition: var(--transition-normal);
+}
+
+.edit_button:hover {
+    background-color: var(--color-surface-alt);
+}
+
+.edit_button span {
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+}
+
+.profile_content {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background-color: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-lg);
+    box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+.profile_content p {
+    font-size: var(--text-lg);
+    color: var(--color-text);
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    background-color: var(--color-surface);
+    margin-top: auto;
+}
+
+.footer_container {
+    padding: var(--spacing-lg) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+}
+
+/* Add smooth transitions */
+.profile_container,
+.profile_content,
+.edit_button {
+    transition: all var(--transition-normal);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .profile_container {
+        padding: var(--spacing-sm);
+    }
+
+    .profile_header h1 {
+        font-size: calc(var(--text-xl) * 0.7);
+    }
+
+    .profile_content {
+        padding: var(--spacing-md);
+    }
+}

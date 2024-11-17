@@ -130,20 +130,21 @@ app.get('/:id', async (req, res) => {
     }
 
     // Check if it's a user page
-    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, user) => {
+    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, pageUser) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
 
-        if (user) {
+        if (pageUser) {
             // This is a user page
             res.render('pages/template', {
                 siteTitle,
                 discordInvite,
                 rootDomain,
                 version,
-                user
+                pageUser: pageUser,  // Changed from user to pageUser
+                loggedInUser: req.session.user  // Explicitly pass logged in user
             });
         } else {
             // Not a user page, send 404

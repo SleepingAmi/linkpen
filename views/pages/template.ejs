@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <%- include('../partials/head', {siteTitle, rootDomain}) %>
+        <link rel="stylesheet" href="/css/template.css">
 </head>
-<body>
-    
+
+<body class="darkTheme">
+    <%- include('../partials/header', { siteTitle, discordInvite, rootDomain, user: loggedInUser }) %>
+
+        <div class="main_div_one">
+            <div class="main_div_container">
+                <div class="main_div_content">
+                    <div class="profile_container">
+                        <div class="profile_header">
+                            <h1>@<%- pageUser.username %></h1>
+                            <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
+                                <div class="edit_button">
+                                    <span>This is your page!</span>
+                                </div>
+                                <% } %>
+                        </div>
+                        <div class="profile_content">
+                            <p>🚧 Work in progress 🚧</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
 </body>
+
 </html>
