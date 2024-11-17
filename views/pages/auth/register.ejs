@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../../partials/head', {siteTitle, rootDomain}) %>
+        <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body class="darkTheme">
+    <div class="authHead">
+        <div class="navContainer">
+            <div class="nav">
+                <a href="<%- rootDomain %>">
+                    <div class="title">
+                        <h1><%- siteTitle %></h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Register</h1>
+        <form action="/api/register" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <input type="submit" value="Register">
+        </form>
+        <p class="toggle">Already have an account? <a href="/login">Login</a></p>
+    </div>
+</body>
+
+</html>
