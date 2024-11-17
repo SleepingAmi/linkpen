@@ -5,6 +5,9 @@ const { version } = require('../package.json');
 
 // Login page
 router.get('/login', (req, res) => {
+    if (req.session.user) {
+        return res.redirect(`/${req.session.user.username}`);
+    }
     res.render('pages/auth/login', {
         siteTitle,
         version,
@@ -16,6 +19,9 @@ router.get('/login', (req, res) => {
 
 // Register page
 router.get('/register', (req, res) => {
+    if (req.session.user) {
+        return res.redirect(`/${req.session.user.username}`);
+    }
     // Redirect to login if registrations are disabled
     if (!isPublic) {
         return res.redirect('/login');
@@ -30,4 +36,4 @@ router.get('/register', (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = router;  // Make sure this line exists and is at the end

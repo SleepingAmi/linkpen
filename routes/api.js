@@ -52,11 +52,21 @@ router.post('/register', async (req, res, next) => {
                         return res.status(500).send('Error retrieving user data.');
                     }
 
-                    // Save user data in session
-                    req.session.user = { id: newUser.id, username: newUser.username };
+                    // Set session data
+                    req.session.user = {
+                        id: newUser.id,
+                        username: newUser.username
+                    };
 
-                    // Redirect to their new profile page
-                    res.redirect(`/${username}`);
+                    // Save session before redirecting
+                    req.session.save((err) => {
+                        if (err) {
+                            console.error('Session save error:', err);
+                            return res.status(500).send('Error saving session.');
+                        }
+                        // Redirect to their new profile page
+                        res.redirect(`/${username}`);
+                    });
                 });
             });
         });
@@ -90,11 +100,20 @@ router.post('/login', async (req, res, next) => {
                 return res.status(400).send('Invalid username or password.');
             }
 
-            // Save user data in the session
-            req.session.user = { id: row.id, username: row.username };
+            // Set session data with explicit save
+            req.session.user = {
+                id: row.id,
+                username: row.username
+            };
 
-            // Redirect to /{username}
-            return res.redirect(`/${row.username}`);
+            req.session.save((err) => {
+                if (err) {
+                    console.error('Session save error:', err);
+                    return res.status(500).send('Error saving session');
+                }
+                console.log('Session saved:', req.session); // Debug log
+                res.redirect(`/${row.username}`);
+            });
         });
     } catch (error) {
         console.error(error.message);
@@ -102,7 +121,27 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
+// Logout route
+router.get('/logout', (req, res) => {
+    // For debugging
+    console.log('Logout called. Session before:', req.session);
 
+    // Destroy the session
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Error logging out');
+        }
 
+        // Clear the cookie
+        res.clearCookie('connect.sid');
 
+        console.log('Session destroyed successfully');
+
+        // Redirect to home page
+        res.redirect('/');
+    });
+});
+
+// Make sure to export the router!
 module.exports = router;

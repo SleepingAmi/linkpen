@@ -4,15 +4,16 @@ const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const { version } = require('./package.json')
 const { rootDomain, hostPort, siteTitle, discordInvite, database_key, isPublic } = require('./global-variables.json')
 
 const port = hostPort || 8800;
 
-// kickstart express & database
+// Initialize Express
 const app = express();
 
-// Initialize SQLite database
+// Database setup
 const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
     if (err) {
         console.error('Error connecting to SQLite database:', err.message);
@@ -21,6 +22,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
     }
 });
 
+// Create users table if it doesn't exist
 db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     username TEXT NOT NULL,
@@ -33,48 +35,77 @@ db.run(`CREATE TABLE IF NOT EXISTS users (
     }
 });
 
-const session = require('express-session');
-
+// Session configuration
 app.use(session({
-    secret: database_key,       // Replace with a strong, random secret key
-    resave: false,              // Avoid resaving unchanged sessions
-    saveUninitialized: true,    // Save uninitialized sessions
-    cookie: { secure: true }   // Set to false if not using HTTPS
+    secret: database_key,
+    resave: true,           // Changed to true
+    saveUninitialized: false,
+    name: 'connect.sid',    // Explicit cookie name
+    cookie: {
+        secure: false,      // Set to false for HTTP
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        path: '/',
+        sameSite: 'lax'    // Added for security
+    },
+    rolling: true          // Refresh session with each request
 }));
 
-// CORS and cache headers middleware
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
+    // Refresh session expiry
+    if (req.session.user) {
+        req.session.touch();
+    }
+    next();
+});
+
+// Basic middleware
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
+
+// Headers middleware
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Cache-Control", "no-cache");
     next();
 });
 
-// User session and locals middleware
+// Session debug middleware
+app.use((req, res, next) => {
+    console.log('Session:', req.session);
+    console.log('User:', req.session.user);
+    next();
+});
+
+// Make user data available to all views
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.isPublic = isPublic;
     next();
 });
 
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+// Import route handlers
+const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
 
-// Route handlers
-app.use('/api', require('./routes/api'));
-app.use('/', require('./routes/auth'));
+// Apply API routes
+app.use('/api', apiRouter);
 
-// GET / (landing page)
-app.get('/', async (req, res) => {
+// Landing page route
+app.get('/', (req, res) => {
     res.render('pages/index', {
         siteTitle,
         discordInvite,
         rootDomain,
         version
-    })
-})
+    });
+});
+
+// Apply auth routes
+app.use('/', authRouter);
 
 /* @endpoint filter
     Endpoints to filter out, as the below implementation will otherwise find any matching record in the database.
@@ -85,13 +116,10 @@ app.get('/', async (req, res) => {
             - SleepingAmi
 */
 
-// Special routes that should be checked before user pages
-const specialRoutes = ['about'];
-
-// GET any :id
+// User pages and special routes as catch-all
 app.get('/:id', async (req, res) => {
-    // First check if this is a special route
-    if (specialRoutes.includes(req.params.id)) {
+    // Special routes like 'about'
+    if (['about'].includes(req.params.id)) {
         return res.render(`pages/${req.params.id}`, {
             siteTitle,
             version,
@@ -101,7 +129,7 @@ app.get('/:id', async (req, res) => {
         });
     }
 
-    // If not a special route, check if it's a user page
+    // Check if it's a user page
     db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, user) => {
         if (err) {
             console.error(err);
@@ -129,12 +157,24 @@ app.get('/:id', async (req, res) => {
     });
 });
 
-// Start the server
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('pages/404', {
+        siteTitle,
+        discordInvite,
+        rootDomain,
+        version,
+        error: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong!'
+    });
+});
+
+// Start server
 const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// Handle server errors
+// Error handling for server
 server.on('error', (error) => {
     if (error.syscall !== 'listen') {
         throw error;

@@ -55,47 +55,49 @@
                                     </a>
                                 </div>
                                 <div class="auth_btn">
-                                    <a class="auth_action" href="/api/logout" tabindex="0">
-                                        <div class="auth_btn_content">
-                                            <span
-                                                style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                logout
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <% } else { %>
-                                <!-- Login/Register buttons -->
-                                <div class="auth_btn_container" style="display: flex; gap: 8px;">
-                                    <div class="auth_btn">
-                                        <a class="auth_action" href="/login" tabindex="0">
+                                    <form action="/api/logout" method="GET" style="margin: 0;">
+                                        <button type="submit" class="auth_action"
+                                            style="background: none; border: none; padding: 0; cursor: pointer;">
                                             <div class="auth_btn_content">
                                                 <span
                                                     style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                    login
+                                                    logout
                                                 </span>
                                             </div>
-                                        </a>
-                                    </div>
-                                    <% if (isPublic) { %>
+                                        </button>
+                                    </form>
+                                </div>
+                                <% } else { %>
+                                    <!-- Login/Register buttons -->
+                                    <div class="auth_btn_container" style="display: flex; gap: 8px;">
                                         <div class="auth_btn">
-                                            <a class="auth_action" href="/register" tabindex="0">
+                                            <a class="auth_action" href="/login" tabindex="0">
                                                 <div class="auth_btn_content">
                                                     <span
                                                         style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                        register
+                                                        login
                                                     </span>
                                                 </div>
                                             </a>
                                         </div>
-                                        <% } %>
-                                </div>
-                                <% } %>
+                                        <% if (isPublic) { %>
+                                            <div class="auth_btn">
+                                                <a class="auth_action" href="/register" tabindex="0">
+                                                    <div class="auth_btn_content">
+                                                        <span
+                                                            style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                            register
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                    <% } %>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="spacer"></div>
+    <div class="spacer"></div>
