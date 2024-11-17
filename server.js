@@ -22,17 +22,39 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
     }
 });
 
-// Create users table if it doesn't exist
-db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL
-)`, (err) => {
-    if (err) {
-        console.error('Error creating users table:', err.message);
-    } else {
-        console.log('users table is ready.');
-    }
+// Create tables if they don't exist
+db.serialize(() => {
+    // Users table
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL
+    )`, (err) => {
+        if (err) {
+            console.error('Error creating users table:', err.message);
+        } else {
+            console.log('users table is ready.');
+        }
+    });
+
+    // Links table
+    db.run(`CREATE TABLE IF NOT EXISTS links (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        user_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        url TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        is_active BOOLEAN DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )`, (err) => {
+        if (err) {
+            console.error('Error creating links table:', err.message);
+        } else {
+            console.log('links table is ready.');
+        }
+    });
 });
 
 // Session configuration
@@ -90,9 +112,12 @@ app.use((req, res, next) => {
 // Import route handlers
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
+const linksRouter = require('./routes/links');
 
 // Apply API routes
 app.use('/api', apiRouter);
+app.use('/', authRouter);
+app.use('/api/links', linksRouter);
 
 // Landing page route
 app.get('/', (req, res) => {
@@ -137,14 +162,23 @@ app.get('/:id', async (req, res) => {
         }
 
         if (pageUser) {
-            // This is a user page
-            res.render('pages/template', {
-                siteTitle,
-                discordInvite,
-                rootDomain,
-                version,
-                pageUser: pageUser,  // Changed from user to pageUser
-                loggedInUser: req.session.user  // Explicitly pass logged in user
+            // Get user's links
+            db.all('SELECT * FROM links WHERE user_id = ? AND is_active = 1 ORDER BY position', [pageUser.id], (err, links) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Database error');
+                }
+
+                // Render page with user and their links
+                res.render('pages/template', {
+                    siteTitle,
+                    discordInvite,
+                    rootDomain,
+                    version,
+                    pageUser,
+                    loggedInUser: req.session.user,
+                    links: links || []
+                });
             });
         } else {
             // Not a user page, send 404
