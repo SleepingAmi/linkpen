@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const path = require('path');  // Add this
 const { rootDomain } = require('../global-variables.json');
-const config = require(path.join(__dirname, '..', 'config.js'));  // Fix the import
+const config = require(path.join(__dirname, '..', 'config.js'));
 const sqlite3 = require('sqlite3').verbose();
 
 router.use(bodyParser.json());
@@ -83,7 +83,7 @@ router.post('/register', async (req, res, next) => {
 
     try {
         // Check if username exists (case-insensitive)
-        db.get('SELECT * FROM users WHERE LOWER(username) = LOWER(?)', [username], async (err, row) => {
+        db.get('SELECT id, username, isAdmin FROM users WHERE username = ?', [username], async (err, row) => {
             if (err) {
                 console.error(err.message);
                 return res.status(500).send('Database error.');
@@ -103,8 +103,8 @@ router.post('/register', async (req, res, next) => {
                     return res.status(500).send('Error creating user.');
                 }
 
-                // Get the new user
-                db.get('SELECT * FROM users WHERE username = ?', [username], (err, newUser) => {
+                // Get the new user - include isAdmin in the SELECT
+                db.get('SELECT id, username, isAdmin FROM users WHERE username = ?', [username], (err, newUser) => {
                     if (err) {
                         console.error(err.message);
                         return res.status(500).send('Error retrieving user data.');
@@ -113,7 +113,8 @@ router.post('/register', async (req, res, next) => {
                     // Set session
                     req.session.user = {
                         id: newUser.id,
-                        username: newUser.username
+                        username: newUser.username,
+                        isAdmin: newUser.isAdmin === 1  // This will be 0 for new users
                     };
 
                     req.session.save((err) => {
@@ -141,13 +142,13 @@ router.post('/login', async (req, res, next) => {
     }
 
     try {
-        db.get('SELECT * FROM users WHERE username = ?', [username], async (err, row) => {
+        db.get('SELECT id, username, password, isAdmin FROM users WHERE username = ?', [username], async (err, row) => {
             if (err) {
                 console.error(err.message);
                 return res.status(500).send('Database error.');
             }
 
-            if (!row) {
+            if (!row || !row.password) {
                 return res.status(400).send('Invalid username or password.');
             }
 
@@ -156,10 +157,10 @@ router.post('/login', async (req, res, next) => {
                 return res.status(400).send('Invalid username or password.');
             }
 
-            // Set session data with explicit save
             req.session.user = {
                 id: row.id,
-                username: row.username
+                username: row.username,
+                isAdmin: row.isAdmin === 1
             };
 
             req.session.save((err) => {
@@ -167,7 +168,7 @@ router.post('/login', async (req, res, next) => {
                     console.error('Session save error:', err);
                     return res.status(500).send('Error saving session');
                 }
-                console.log('Session saved:', req.session); // Debug log
+                console.log('Session saved:', req.session);
                 res.redirect(`/${row.username}`);
             });
         });
