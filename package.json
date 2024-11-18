@@ -1,6 +1,6 @@
 {
   "name": "linkpen",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Free, customizable, link-in-bio's for everyone!",
   "main": "server.js",
   "scripts": {

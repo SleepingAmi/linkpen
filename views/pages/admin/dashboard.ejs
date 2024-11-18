@@ -1,0 +1,78 @@
+<head>
+    <%- include('../../partials/head', {siteTitle, rootDomain}) %>
+        <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="darkTheme">
+    <%- include('../../partials/header', {siteTitle, discordInvite, rootDomain, user: loggedInUser }) %>
+
+        <div class="main_div_one">
+            <div class="main_div_container">
+                <div class="main_div_content">
+                    <div class="admin_container">
+                        <div class="admin_header">
+                            <h1>Admin Dashboard</h1>
+                            <p>Manage users and their permissions</p>
+                        </div>
+
+                        <div class="users_table_container">
+                            <table class="users_table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Admin</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(function(user) { %>
+                                        <tr>
+                                            <td>#<%= user.id %>
+                                            </td>
+                                            <td>
+                                                <a href="/<%= user.username %>" target="_blank">
+                                                    @<%= user.username %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <% if (user.id !==loggedInUser.id) { %>
+                                                    <form action="/dashboard/users/toggle-admin" method="POST"
+                                                        class="inline-form">
+                                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                                        <button type="submit"
+                                                            class="admin_toggle <%= user.isAdmin ? 'active' : '' %>">
+                                                            <%= user.isAdmin ? 'Admin' : 'User' %>
+                                                        </button>
+                                                    </form>
+                                                    <% } else { %>
+                                                        <span class="admin_badge">Admin (You)</span>
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="action_buttons">
+                                                    <a href="/<%= user.username %>" class="view_button">View</a>
+                                                    <% if (user.id !==loggedInUser.id) { %>
+                                                        <form action="/dashboard/users/delete" method="POST"
+                                                            class="inline-form"
+                                                            onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                                            <input type="hidden" name="userId" value="<%= user.id %>">
+                                                            <button type="submit" class="delete_button">Delete</button>
+                                                        </form>
+                                                        <% } %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../partials/footer', {siteTitle, rootDomain, version}) %>
+</body>
+
+</html>
