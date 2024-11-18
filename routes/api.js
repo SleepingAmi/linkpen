@@ -141,13 +141,13 @@ router.post('/login', async (req, res, next) => {
     }
 
     try {
-        db.get('SELECT * FROM users WHERE username = ?', [username], async (err, row) => {
+        db.get('SELECT id, username, password, isAdmin FROM users WHERE username = ?', [username], async (err, row) => {
             if (err) {
                 console.error(err.message);
                 return res.status(500).send('Database error.');
             }
 
-            if (!row) {
+            if (!row || !row.password) {
                 return res.status(400).send('Invalid username or password.');
             }
 
@@ -156,10 +156,10 @@ router.post('/login', async (req, res, next) => {
                 return res.status(400).send('Invalid username or password.');
             }
 
-            // Set session data with explicit save
             req.session.user = {
                 id: row.id,
-                username: row.username
+                username: row.username,
+                isAdmin: row.isAdmin === 1
             };
 
             req.session.save((err) => {
@@ -167,7 +167,7 @@ router.post('/login', async (req, res, next) => {
                     console.error('Session save error:', err);
                     return res.status(500).send('Error saving session');
                 }
-                console.log('Session saved:', req.session); // Debug log
+                console.log('Session saved:', req.session);
                 res.redirect(`/${row.username}`);
             });
         });

@@ -34,6 +34,42 @@ db.serialize(() => {
             console.error('Error creating users table:', err.message);
         } else {
             console.log('users table is ready.');
+
+            // Add isAdmin column if it doesn't exist
+            db.run(`PRAGMA table_info(users)`, (err, rows) => {
+                if (err) {
+                    console.error('Error checking table info:', err);
+                    return;
+                }
+
+                // Check if isAdmin column exists
+                db.get(`SELECT * FROM pragma_table_info('users') WHERE name='isAdmin'`, (err, row) => {
+                    if (err) {
+                        console.error('Error checking for isAdmin column:', err);
+                        return;
+                    }
+
+                    if (!row) {
+                        // Add isAdmin column
+                        db.run(`ALTER TABLE users ADD COLUMN isAdmin BOOLEAN DEFAULT 0`, (err) => {
+                            if (err) {
+                                console.error('Error adding isAdmin column:', err);
+                                return;
+                            }
+                            console.log('Added isAdmin column');
+
+                            // Set first user as admin
+                            db.run('UPDATE users SET isAdmin = 1 WHERE id = 1', (err) => {
+                                if (err) {
+                                    console.error('Error setting admin:', err);
+                                } else {
+                                    console.log('Set first user as admin');
+                                }
+                            });
+                        });
+                    }
+                });
+            });
         }
     });
 
@@ -113,11 +149,13 @@ app.use((req, res, next) => {
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
 const linksRouter = require('./routes/links');
+const adminRouter = require('./routes/admin');
 
 // Apply API routes
 app.use('/api', apiRouter);
 app.use('/', authRouter);
 app.use('/api/links', linksRouter);
+app.use('/', adminRouter);
 
 // Landing page route
 app.get('/', (req, res) => {

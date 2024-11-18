@@ -37,6 +37,16 @@
                                             style="white-space: nowrap; font-size: 15px; line-height: 1.5;">learn</span>
                                     </div>
                                 </a>
+                                <div class="hide-on-mobile">
+                                    <% if (locals.user && locals.user.isAdmin) { %>
+                                        <a class="menuitem" href="/dashboard/admin">
+                                            <div class="nav_option">
+                                                <span
+                                                    style="white-space: nowrap; font-size: 15px; line-height: 1.5;">Dashboard</span>
+                                            </div>
+                                        </a>
+                                        <% } %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,3 +111,11 @@
         </div>
     </div>
     <div class="spacer"></div>
+
+    <style>
+        @media only screen and (max-width: 768px) {
+            .hide-on-mobile {
+                display: none;
+            }
+        }
+    </style>
