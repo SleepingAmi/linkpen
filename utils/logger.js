@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Toggle for console logging
-const ENABLE_CONSOLE_LOGGING = false;
+const ENABLE_CONSOLE_LOGGING = false; // Easy toggle for console output
 
 // Create logs directory if it doesn't exist
 const logsDir = path.join(__dirname, '..', 'logs');
