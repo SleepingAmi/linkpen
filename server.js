@@ -49,25 +49,6 @@ db.serialize(() => {
                         return;
                     }
 
-                    const setupAdmin = () => {
-                        // Check if there are any users and set first one as admin
-                        db.get('SELECT COUNT(*) as count FROM users', [], (err, countRow) => {
-                            if (err) {
-                                console.error('Error counting users:', err);
-                                return;
-                            }
-                            if (countRow.count > 0) {
-                                db.run('UPDATE users SET isAdmin = 1 WHERE id = 1', (err) => {
-                                    if (err) {
-                                        console.error('Error setting admin:', err);
-                                    } else {
-                                        console.log('Set first user as admin');
-                                    }
-                                });
-                            }
-                        });
-                    };
-
                     if (!row) {
                         // Add isAdmin column
                         db.run(`ALTER TABLE users ADD COLUMN isAdmin BOOLEAN DEFAULT 0`, (err) => {
@@ -76,11 +57,16 @@ db.serialize(() => {
                                 return;
                             }
                             console.log('Added isAdmin column');
-                            setupAdmin();
+
+                            // Set first user as admin
+                            db.run('UPDATE users SET isAdmin = 1 WHERE id = 1', (err) => {
+                                if (err) {
+                                    console.error('Error setting admin:', err);
+                                } else {
+                                    console.log('Set first user as admin');
+                                }
+                            });
                         });
-                    } else {
-                        // Column exists, just ensure first user is admin
-                        setupAdmin();
                     }
                 });
             });
