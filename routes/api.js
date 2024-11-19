@@ -236,24 +236,20 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-// Logout route
 router.get('/logout', (req, res) => {
-    // For debugging
-    console.log('Logout called. Session before:', req.session);
+    const username = req.session?.user?.username;
 
     // Destroy the session
     req.session.destroy((err) => {
         if (err) {
-            console.error('Error destroying session:', err);
+            logError('Error during logout', err);
             return res.status(500).send('Error logging out');
         }
 
-        // Clear the cookie
         res.clearCookie('connect.sid');
-
-        console.log('Session destroyed successfully');
-
-        // Redirect to home page
+        if (username) {
+            logAuth('User logged out', username);
+        }
         res.redirect('/');
     });
 });
