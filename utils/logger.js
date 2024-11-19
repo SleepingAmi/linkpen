@@ -2,6 +2,9 @@ const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
 
+// Toggle for console logging
+const ENABLE_CONSOLE_LOGGING = false;
+
 // Create logs directory if it doesn't exist
 const logsDir = path.join(__dirname, '..', 'logs');
 if (!fs.existsSync(logsDir)) {
@@ -9,60 +12,57 @@ if (!fs.existsSync(logsDir)) {
 }
 
 // Define custom format
-const customFormat = winston.format.printf(({ timestamp, level, type, message, user, details }) => {
-    let logMessage = `${timestamp} [${level.toUpperCase()}]`;
-    if (type) logMessage += ` [${type}]`;
-    if (user) logMessage += ` [User: ${user}]`;
-    logMessage += `: ${message}`;
-    if (details) logMessage += ` - ${JSON.stringify(details)}`;
+const customFormat = winston.format.printf(info => {
+    let logMessage = `${info.timestamp} [${info.level.toUpperCase()}]`;
+    if (info.type) logMessage += ` [${info.type}]`;
+    if (info.user) logMessage += ` [User: ${info.user}]`;
+    logMessage += `: ${info.message}`;
+    if (info.details) logMessage += ` - ${JSON.stringify(info.details)}`;
     return logMessage;
 });
 
-// Create logger with separate files per concern
-const logger = winston.createLogger({
-    format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        customFormat
-    ),
-    transports: [
-        // Auth specific logs
-        new winston.transports.File({
-            filename: path.join(logsDir, 'auth.log'),
-            level: 'info',
-            format: winston.format.combine(
-                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                customFormat
-            )
-        }),
-        // Only admin actions
-        new winston.transports.File({
-            filename: path.join(logsDir, 'admin.log'),
-            level: 'info',
-            format: winston.format.combine(
-                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                customFormat
-            )
-        }),
-        // Only user actions
-        new winston.transports.File({
-            filename: path.join(logsDir, 'user.log'),
-            level: 'info',
-            format: winston.format.combine(
-                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                customFormat
-            )
-        }),
-        // Application errors
-        new winston.transports.File({
-            filename: path.join(logsDir, 'error.log'),
-            level: 'error'
-        })
-    ]
-});
+// Base transport format
+const baseFormat = winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    customFormat
+);
 
-// Helper functions with better separation
+// Create loggers with conditional console transport
+const createLogger = (filename, level = 'info') => {
+    const transports = [
+        new winston.transports.File({
+            filename: path.join(logsDir, filename),
+            level
+        })
+    ];
+
+    // Add console transport if enabled
+    if (ENABLE_CONSOLE_LOGGING) {
+        transports.push(
+            new winston.transports.Console({
+                format: winston.format.combine(
+                    winston.format.colorize(),
+                    winston.format.simple()
+                )
+            })
+        );
+    }
+
+    return winston.createLogger({
+        format: baseFormat,
+        transports
+    });
+};
+
+// Create separate loggers for each concern
+const authLogger = createLogger('auth.log');
+const adminLogger = createLogger('admin.log');
+const userLogger = createLogger('user.log');
+const errorLogger = createLogger('error.log', 'error');
+
+// Helper functions
 const logAdmin = (message, adminUser, details = null) => {
-    logger.info({
+    adminLogger.info({
         type: 'ADMIN',
         message,
         user: adminUser?.username || 'Unknown',
@@ -71,7 +71,7 @@ const logAdmin = (message, adminUser, details = null) => {
 };
 
 const logUser = (message, user, details = null) => {
-    logger.info({
+    userLogger.info({
         type: 'USER',
         message,
         user: user?.username || 'Unknown',
@@ -80,7 +80,7 @@ const logUser = (message, user, details = null) => {
 };
 
 const logAuth = (message, username, details = null) => {
-    logger.info({
+    authLogger.info({
         type: 'AUTH',
         message,
         user: username || 'Unknown',
@@ -89,26 +89,11 @@ const logAuth = (message, username, details = null) => {
 };
 
 const logError = (message, error = null) => {
-    logger.error({
+    errorLogger.error({
         type: 'ERROR',
         message,
         details: error ? (error.stack || error.message || error) : null
     });
 };
 
-// Development console logging
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple()
-        )
-    }));
-}
-
-module.exports = {
-    logAdmin,   // For admin actions only
-    logUser,    // For regular user actions
-    logAuth,    // For login/register/logout
-    logError    // For application errors
-};
+module.exports = { logAdmin, logUser, logAuth, logError };
