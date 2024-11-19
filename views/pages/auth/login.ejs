@@ -34,9 +34,14 @@
 
             <input type="submit" value="Login">
         </form>
-        <% if (isPublic) { %>
-            <p class="toggle">Don't have an account? <a href="/register">Register</a></p>
+        <% if (locals.error) { %>
+            <p class="error-message">
+                <%= error %>
+            </p>
             <% } %>
+                <% if (isPublic) { %>
+                    <p class="toggle">Don't have an account? <a href="/register">Register</a></p>
+                    <% } %>
     </div>
 </body>
 

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const path = require('path');  // Add this
-const { rootDomain } = require('../global-variables.json');
+const path = require('path');
+const { rootDomain, siteTitle, discordInvite, isPublic } = require('../global-variables.json');
+const { version } = require('../package.json');
 const config = require(path.join(__dirname, '..', 'config.js'));
 const sqlite3 = require('sqlite3').verbose();
 const { logAuth, logError } = require('../utils/logger');
@@ -74,8 +75,14 @@ router.post('/register', async (req, res, next) => {
     // Validate inputs
     const usernameError = validateUsername(username);
     if (usernameError) {
-        logAuth('Registration failed - invalid username', username);
-        return res.redirect('/register');
+        return res.render('pages/auth/register', {
+            siteTitle,
+            discordInvite,
+            rootDomain,
+            version,
+            isPublic,
+            error: usernameError
+        });
     }
 
     const passwordError = validatePassword(password);
@@ -94,7 +101,14 @@ router.post('/register', async (req, res, next) => {
 
             if (row) {
                 logAuth('Registration failed - username taken', username);
-                return res.redirect('/register');
+                return res.render('pages/auth/register', {
+                    siteTitle,
+                    rootDomain,
+                    discordInvite,
+                    version,
+                    isPublic,
+                    error: 'This username is already taken'
+                });
             }
 
             try {
@@ -147,10 +161,16 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
 
-    // Validate input presence
     if (!username || !password) {
         logAuth('Login attempt with missing credentials', null);
-        return res.redirect('/login');
+        return res.render('pages/auth/login', {
+            siteTitle,
+            discordInvite,
+            rootDomain,
+            version,
+            isPublic,
+            error: 'Username and password are required'
+        });
     }
 
     try {
@@ -163,7 +183,14 @@ router.post('/login', async (req, res, next) => {
             // User not found
             if (!row) {
                 logAuth('Login attempt for non-existent user', username);
-                return res.redirect('/login');
+                return res.render('pages/auth/login', {
+                    siteTitle,
+                    discordInvite,
+                    rootDomain,
+                    version,
+                    isPublic,
+                    error: 'Invalid username or password'
+                });
             }
 
             // Check password
@@ -171,7 +198,14 @@ router.post('/login', async (req, res, next) => {
                 const isPasswordCorrect = await bcrypt.compare(password, row.password);
                 if (!isPasswordCorrect) {
                     logAuth('Failed login attempt - incorrect password', username);
-                    return res.redirect('/login');
+                    return res.render('pages/auth/login', {
+                        siteTitle,
+                        rootDomain,
+                        discordInvite,
+                        version,
+                        isPublic,
+                        error: 'Invalid username or password'
+                    });
                 }
 
                 // Login successful

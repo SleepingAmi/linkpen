@@ -52,6 +52,13 @@ body {
     left: var(--spacing-sm);
 }
 
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
 .container {
     width: var(--wrapper-width) !important;
     background-color: var(--color-surface) !important;
