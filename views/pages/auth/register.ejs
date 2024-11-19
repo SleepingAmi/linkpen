@@ -35,7 +35,12 @@
             </div>
             <input type="submit" value="Register">
         </form>
-        <p class="toggle">Already have an account? <a href="/login">Login</a></p>
+        <% if (locals.error) { %>
+            <p class="error-message">
+                <%= error %>
+            </p>
+            <% } %>
+                <p class="toggle">Already have an account? <a href="/login">Login</a></p>
     </div>
 </body>
 
