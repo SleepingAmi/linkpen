@@ -6,6 +6,7 @@ const path = require('path');  // Add this
 const { rootDomain } = require('../global-variables.json');
 const config = require(path.join(__dirname, '..', 'config.js'));
 const sqlite3 = require('sqlite3').verbose();
+const { logAuth, logError } = require('../utils/logger');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -73,63 +74,72 @@ router.post('/register', async (req, res, next) => {
     // Validate inputs
     const usernameError = validateUsername(username);
     if (usernameError) {
-        return res.status(400).send(usernameError);
+        logAuth('Registration failed - invalid username', username);
+        return res.redirect('/register');
     }
 
     const passwordError = validatePassword(password);
     if (passwordError) {
-        return res.status(400).send(passwordError);
+        logAuth('Registration failed - invalid password', username);
+        return res.redirect('/register');
     }
 
     try {
         // Check if username exists (case-insensitive)
         db.get('SELECT id, username, isAdmin FROM users WHERE username = ?', [username], async (err, row) => {
             if (err) {
-                console.error(err.message);
-                return res.status(500).send('Database error.');
+                logError('Database error during registration', err);
+                return res.redirect('/register');
             }
 
             if (row) {
-                return res.status(400).send('Username already exists.');
+                logAuth('Registration failed - username taken', username);
+                return res.redirect('/register');
             }
 
-            // Hash the password
-            const hashedPassword = await bcrypt.hash(password, 10);
+            try {
+                // Hash the password
+                const hashedPassword = await bcrypt.hash(password, 10);
 
-            // Insert the new user
-            db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err) {
-                if (err) {
-                    console.error(err.message);
-                    return res.status(500).send('Error creating user.');
-                }
-
-                // Get the new user - include isAdmin in the SELECT
-                db.get('SELECT id, username, isAdmin FROM users WHERE username = ?', [username], (err, newUser) => {
+                // Insert the new user
+                db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err) {
                     if (err) {
-                        console.error(err.message);
-                        return res.status(500).send('Error retrieving user data.');
+                        logError('Error creating user', err);
+                        return res.redirect('/register');
                     }
 
-                    // Set session
-                    req.session.user = {
-                        id: newUser.id,
-                        username: newUser.username,
-                        isAdmin: newUser.isAdmin === 1  // This will be 0 for new users
-                    };
-
-                    req.session.save((err) => {
+                    // Get the new user - include isAdmin in the SELECT
+                    db.get('SELECT id, username, isAdmin FROM users WHERE username = ?', [username], (err, newUser) => {
                         if (err) {
-                            console.error('Session save error:', err);
-                            return res.status(500).send('Error saving session.');
+                            logError('Error retrieving new user data', err);
+                            return res.redirect('/login');
                         }
-                        res.redirect(`/${username}`);
+
+                        // Set session
+                        req.session.user = {
+                            id: newUser.id,
+                            username: newUser.username,
+                            isAdmin: newUser.isAdmin === 1
+                        };
+
+                        req.session.save((err) => {
+                            if (err) {
+                                logError('Session save error', err);
+                                return res.redirect('/login');
+                            }
+                            logAuth('Successful registration', username);
+                            res.redirect(`/${username}`);
+                        });
                     });
                 });
-            });
+            } catch (hashError) {
+                logError('Password hashing error', hashError);
+                return res.redirect('/register');
+            }
         });
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Internal server error.');
+        logError('Unexpected error during registration', error);
+        return res.redirect('/register');
     }
 });
 
@@ -137,44 +147,58 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
 
+    // Validate input presence
     if (!username || !password) {
-        return res.status(400).send('Username and password are required fields.');
+        logAuth('Login attempt with missing credentials', null);
+        return res.redirect('/login');
     }
 
     try {
         db.get('SELECT id, username, password, isAdmin FROM users WHERE username = ?', [username], async (err, row) => {
             if (err) {
-                console.error(err.message);
-                return res.status(500).send('Database error.');
+                logError('Database error during login', err);
+                return res.redirect('/login');
             }
 
-            if (!row || !row.password) {
-                return res.status(400).send('Invalid username or password.');
+            // User not found
+            if (!row) {
+                logAuth('Login attempt for non-existent user', username);
+                return res.redirect('/login');
             }
 
-            const isPasswordCorrect = await bcrypt.compare(password, row.password);
-            if (!isPasswordCorrect) {
-                return res.status(400).send('Invalid username or password.');
-            }
-
-            req.session.user = {
-                id: row.id,
-                username: row.username,
-                isAdmin: row.isAdmin === 1
-            };
-
-            req.session.save((err) => {
-                if (err) {
-                    console.error('Session save error:', err);
-                    return res.status(500).send('Error saving session');
+            // Check password
+            try {
+                const isPasswordCorrect = await bcrypt.compare(password, row.password);
+                if (!isPasswordCorrect) {
+                    logAuth('Failed login attempt - incorrect password', username);
+                    return res.redirect('/login');
                 }
-                console.log('Session saved:', req.session);
-                res.redirect(`/${row.username}`);
-            });
+
+                // Login successful
+                req.session.user = {
+                    id: row.id,
+                    username: row.username,
+                    isAdmin: row.isAdmin === 1
+                };
+
+                // Save session before redirect
+                req.session.save((err) => {
+                    if (err) {
+                        logError('Session save error during login', err);
+                        return res.redirect('/login');
+                    }
+
+                    logAuth('Successful login', username, { isAdmin: row.isAdmin === 1 });
+                    res.redirect(`/${username}`);
+                });
+            } catch (bcryptError) {
+                logError('Password comparison error', bcryptError);
+                return res.redirect('/login');
+            }
         });
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Internal server error.');
+        logError('Unexpected error during login', error);
+        return res.redirect('/login');
     }
 });
 
