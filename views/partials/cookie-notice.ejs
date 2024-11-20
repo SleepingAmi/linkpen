@@ -1,0 +1,11 @@
+<!-- views/partials/cookie-notice.ejs -->
+<% if (locals.showCookieNotice) { %>
+    <div class="cookie-notice">
+        <div class="cookie-content">
+            <p>This site uses cookies for authentication and basic functionality.</p>
+            <form method="POST" action="/cookie-consent">
+                <button type="submit" class="accept-button">Accept</button>
+            </form>
+        </div>
+    </div>
+    <% } %>

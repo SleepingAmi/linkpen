@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head', {siteTitle, rootDomain}) %>
-<body class="darkTheme">
-    <div class="responsive">
-        <div class="pager" style="outline: none;" tabindex="-1">
-            <%- include('../partials/header', {siteTitle, discordInvite, rootDomain}) %>
-            <div class="main_div_one">
-                <div class="main_div_container">
-                    <div class="main_div_content">
-                        <%- include('../partials/hero') %>
-                    </div>
-                </div>
+
+    <body class="darkTheme">
+        <div class="responsive">
+            <div class="pager" style="outline: none;" tabindex="-1">
+                <%- include('../partials/header') %>
+                    <%- include('../partials/cookie-notice') %>
+                        <div class="main_div_one">
+                            <div class="main_div_container">
+                                <div class="main_div_content">
+                                    <%- include('../partials/hero') %>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('../partials/features', {siteTitle}) %>
+                            <%- include('../partials/openSource') %>
+                                <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
             </div>
-            <%- include('../partials/features', {siteTitle}) %>
-            <%- include('../partials/openSource') %>
-            <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
         </div>
-    </div>
-</body>
+    </body>
+
 </html>

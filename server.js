@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { version } = require('./package.json')
 const { rootDomain, hostPort, siteTitle, discordInvite, database_key, isPublic } = require('./global-variables.json')
+const cookieParser = require('cookie-parser');
 
 const port = hostPort || 8800;
 
@@ -107,6 +108,8 @@ db.serialize(() => {
     });
 });
 
+app.use(cookieParser());
+
 // Session configuration
 app.use(session({
     secret: database_key,
@@ -122,6 +125,27 @@ app.use(session({
     },
     rolling: true          // Refresh session with each request
 }));
+
+// Add consent route
+app.post('/cookie-consent', (req, res) => {
+    res.cookie('cookieConsent', 'true', {
+        maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year (idk)
+        httpOnly: true,
+        secure: rootDomain.startsWith('https'),
+        sameSite: 'strict'
+    });
+    res.redirect(req.get('referer') || '/');
+});
+
+const requireCookieConsent = (req, res, next) => {
+    if (!req.cookies.cookieConsent) {
+        return res.redirect('/?requireConsent=true');
+    }
+    next();
+};
+
+app.use('/login', requireCookieConsent);
+app.use('/register', requireCookieConsent);
 
 app.use((req, res, next) => {
     // Refresh session expiry
@@ -159,6 +183,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// Cookie notice middleware
+app.use((req, res, next) => {
+    res.locals.showCookieNotice = !req.cookies?.cookieConsent;
+    next();
+});
+
 // Import route handlers
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
@@ -177,7 +207,9 @@ app.get('/', (req, res) => {
         siteTitle,
         discordInvite,
         rootDomain,
-        version
+        version,
+        isPublic,
+        requireConsent: req.query.requireConsent === 'true'
     });
 });
 
@@ -238,7 +270,8 @@ app.get('/:id', async (req, res) => {
                 siteTitle,
                 discordInvite,
                 rootDomain,
-                version
+                version,
+                isPublic
             });
         }
     });
@@ -252,7 +285,7 @@ app.use((err, req, res, next) => {
         discordInvite,
         rootDomain,
         version,
-        error: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong!'
+        error: err.message
     });
 });
 
