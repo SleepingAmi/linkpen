@@ -537,11 +537,25 @@ div#page_header_container .page_header {
 
 /* Define the shake animation */
 @keyframes shake {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-5deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* Footer Component
@@ -567,6 +581,44 @@ div#page_header_container .page_header {
     line-height: 2;
     font-size: .88rem;
     margin: 0;
+}
+
+/* Cookie Notice Component
+------------------------------------------------- */
+.cookie-notice {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md);
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+}
+
+.cookie-content {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.cookie-content button {
+    background-color: var(--color-accent);
+    color: var(--color-surface);
+    border: none;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: var(--font-bold);
+    transition: opacity var(--transition-fast);
+}
+
+.cookie-content button:hover {
+    opacity: 0.9;
 }
 
 /* Media Queries
@@ -743,6 +795,12 @@ div#page_header_container .page_header {
 
     .footer_text {
         text-align: left;
+    }
+
+    .cookie-content {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-sm);
     }
 }
 
