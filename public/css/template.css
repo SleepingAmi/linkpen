@@ -77,16 +77,17 @@ body.darkTheme {
 /* Footer */
 footer {
     width: 100%;
-    background-color: var(--color-surface);
     margin-top: auto;
 }
 
 .footer_container {
-    padding: var(--spacing-lg) 0;
+    padding: 1.25rem 0;
+    gap: 1rem;
+    place-items: center;
+    place-content: space-between;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-sm);
     max-width: var(--max-width-content);
     margin: 0 auto;
 }
@@ -109,14 +110,15 @@ footer {
 
 .links_management {
     margin-bottom: var(--spacing-lg);
+    width: 100%;
 }
 
 .add_link_form {
     display: flex;
-    gap: var(--spacing-sm);
-    width: 100%;
+    gap: var(--spacing-xs);
+    max-width: 100%;
     background-color: var(--color-surface-alt);
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     border-radius: var(--radius-md);
 }
 
@@ -149,7 +151,7 @@ footer {
     white-space: nowrap;
     background-color: var(--color-accent);
     color: var(--color-surface);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-sm);
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
