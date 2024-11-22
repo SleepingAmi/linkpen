@@ -253,6 +253,39 @@ footer {
     color: var(--color-text);
 }
 
+/* Drag and drop styles */
+.sortable-ghost {
+    opacity: 0.5;
+    background-color: var(--color-feature);
+}
+
+.sortable-chosen {
+    background-color: var(--color-surface);
+}
+
+.sortable-drag {
+    opacity: 0.9;
+}
+
+.link_button {
+    cursor: move; /* Indicates item is draggable */
+    user-select: none;
+}
+
+/* Add visual hint for drag handle */
+.link_button::before {
+    content: '⋮⋮'; /* It was very hard to find this - sooox */
+    display: inline-block;
+    margin-right: 8px;
+    color: var(--color-text);
+    opacity: 0.5;
+}
+
+.link_button {
+    cursor: move; /* Indicates item is draggable */
+    user-select: none;
+}
+
 /* No Links Message */
 .no_links {
     text-align: center;

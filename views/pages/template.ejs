@@ -3,7 +3,7 @@
 
 <head>
     <%- include('../partials/head', {siteTitle, rootDomain, pageUser}) %>
-    <link rel="stylesheet" href="/css/template.css">
+        <link rel="stylesheet" href="/css/template.css">
 </head>
 
 <body class="darkTheme">
@@ -110,6 +110,51 @@
                         const form = document.getElementById(`edit_form_${linkId}`);
                         form.style.display = form.style.display === 'none' ? 'block' : 'none';
                     }
+                </script>
+                <script src="/js/Sortable.min.js"></script>
+                <script>
+                    function toggleEditForm(linkId) {
+                        const form = document.getElementById(`edit_form_${linkId}`);
+                        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const linksContainer = document.querySelector('.links_container');
+                        if (!linksContainer) return;
+
+                        // Initialize Sortable
+                        const sortable = Sortable.create(linksContainer, {
+                            animation: 150,
+                            handle: '.link_button', // Only drag by the link button
+                            ghostClass: 'sortable-ghost',
+                            chosenClass: 'sortable-chosen',
+                            dragClass: 'sortable-drag',
+                            onEnd: function (evt) {
+                                const links = Array.from(linksContainer.children).map((item, index) => ({
+                                    id: item.querySelector('input[name="linkId"]')?.value,
+                                    position: index + 1
+                                })).filter(link => link.id);
+
+                                // Send the new order to the server
+                                fetch('/api/links/reorder', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ links })
+                                })
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        if (!result.success) {
+                                            console.error('Failed to update positions');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error updating positions:', error);
+                                    });
+                            }
+                        });
+                    });
                 </script>
                 <% } %>
 </body>
