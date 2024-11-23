@@ -25,7 +25,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
 
 // Create tables if they don't exist
 db.serialize(() => {
-    // Create users table if it doesn't exist (without isAdmin initially)
+    // Users table
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         username TEXT NOT NULL,
@@ -72,6 +72,41 @@ db.serialize(() => {
             console.error('Error creating links table:', err.message);
         } else {
             console.log('links table is ready.');
+        }
+    });
+
+    // Pages table
+    db.run(`CREATE TABLE IF NOT EXISTS pages (
+        user_id INTEGER PRIMARY KEY NOT NULL,
+        template TEXT DEFAULT 'default',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )`, (err) => {
+        if (err) {
+            console.error('Error creating pages table:', err.message);
+        } else {
+            console.log('pages table is ready.');
+
+            // Create default page entries for existing users
+            db.all('SELECT id FROM users', [], (err, users) => {
+                if (err) {
+                    console.error('Error getting users:', err);
+                    return;
+                }
+
+                users.forEach(user => {
+                    db.run(
+                        'INSERT OR IGNORE INTO pages (user_id, template) VALUES (?, ?)',
+                        [user.id, 'default'],
+                        (err) => {
+                            if (err) {
+                                console.error(`Error creating default page for user ${user.id}:`, err);
+                            }
+                        }
+                    );
+                });
+            });
         }
     });
 });
