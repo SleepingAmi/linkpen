@@ -34,11 +34,12 @@ router.get('/dashboard/admin', requireAdmin, (req, res) => {
     });
 });
 
-// Delete user
-router.post('/dashboard/users/delete', requireAdmin, (req, res) => {
+// Toggle admin status
+router.post('/dashboard/users/toggle-admin', requireAdmin, (req, res) => {
     const userId = req.body.userId;
+
     if (userId == req.session.user.id) {
-        return res.status(400).send('Cannot delete your own account');
+        return res.status(400).send('Cannot modify your own admin status');
     }
 
     db.get('SELECT username, isAdmin FROM users WHERE id = ?', [userId], (err, user) => {
@@ -69,23 +70,24 @@ router.post('/dashboard/users/delete', requireAdmin, (req, res) => {
     }
 
     if (userId == req.session.user.id) {
-        return res.redirect('/dashboard/admin');
+        return res.status(400).send('Cannot delete your own account');
     }
 
     // Get user info before deletion
     db.get('SELECT username FROM users WHERE id = ?', [userId], (err, user) => {
         if (err || !user) {
-            console.error(err);
+            logError('Error fetching user for deletion', err);
             return res.redirect('/dashboard/admin');
         }
 
         // Delete the user
         db.run('DELETE FROM users WHERE id = ?', [userId], (err) => {
             if (err) {
-                console.error(err);
+                logError('Error deleting user', err);
                 return res.redirect('/dashboard/admin');
             }
 
+            logAdmin(`Deleted user ${user.username}`, req.session.user);
             res.redirect('/dashboard/admin');
         });
     });

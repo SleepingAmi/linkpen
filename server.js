@@ -29,61 +29,29 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         username TEXT NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        isAdmin BOOLEAN DEFAULT 0
     )`, (err) => {
         if (err) {
             console.error('Error creating users table:', err.message);
         } else {
             console.log('users table is ready.');
 
-            // Add isAdmin column if it doesn't exist
-            db.run(`PRAGMA table_info(users)`, (err, rows) => {
+            // Set up admin user
+            db.get('SELECT COUNT(*) as count FROM users', [], (err, countRow) => {
                 if (err) {
-                    console.error('Error checking table info:', err);
+                    console.error('Error counting users:', err);
                     return;
                 }
-
-                // Check if isAdmin column exists
-                db.get(`SELECT * FROM pragma_table_info('users') WHERE name='isAdmin'`, (err, row) => {
-                    if (err) {
-                        console.error('Error checking for isAdmin column:', err);
-                        return;
-                    }
-
-                    const setupAdmin = () => {
-                        // Check if there are any users and set first one as admin
-                        db.get('SELECT COUNT(*) as count FROM users', [], (err, countRow) => {
-                            if (err) {
-                                console.error('Error counting users:', err);
-                                return;
-                            }
-                            if (countRow.count > 0) {
-                                db.run('UPDATE users SET isAdmin = 1 WHERE id = 1', (err) => {
-                                    if (err) {
-                                        console.error('Error setting admin:', err);
-                                    } else {
-                                        console.log('Set first user as admin');
-                                    }
-                                });
-                            }
-                        });
-                    };
-
-                    if (!row) {
-                        // Add isAdmin column
-                        db.run(`ALTER TABLE users ADD COLUMN isAdmin BOOLEAN DEFAULT 0`, (err) => {
-                            if (err) {
-                                console.error('Error adding isAdmin column:', err);
-                                return;
-                            }
-                            console.log('Added isAdmin column');
-                            setupAdmin();
-                        });
-                    } else {
-                        // Column exists, just ensure first user is admin
-                        setupAdmin();
-                    }
-                });
+                if (countRow.count > 0) {
+                    db.run('UPDATE users SET isAdmin = 1 WHERE id = 1', (err) => {
+                        if (err) {
+                            console.error('Error setting admin:', err);
+                        } else {
+                            console.log('Set first user as admin');
+                        }
+                    });
+                }
             });
         }
     });
@@ -159,6 +127,12 @@ app.use((req, res, next) => {
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set('views', [
+    path.join(__dirname, 'views'),                    // Default views
+    path.join(__dirname, 'public', 'templates')       // Template views
+]);
+
 app.set('view engine', 'ejs');
 
 // Headers middleware
@@ -194,12 +168,14 @@ const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
 const linksRouter = require('./routes/links');
 const adminRouter = require('./routes/admin');
+const dashboardRouter = require('./routes/dashboard');
 
 // Apply API routes
 app.use('/api', apiRouter);
 app.use('/', authRouter);
 app.use('/api/links', linksRouter);
 app.use('/', adminRouter);
+app.use('/', dashboardRouter);
 
 // Landing page route
 app.get('/', (req, res) => {
@@ -246,23 +222,35 @@ app.get('/:id', async (req, res) => {
         }
 
         if (pageUser) {
-            // Get user's links
-            db.all('SELECT * FROM links WHERE user_id = ? AND is_active = 1 ORDER BY position', [pageUser.id], (err, links) => {
+            // Get user's page settings
+            db.get('SELECT * FROM pages WHERE user_id = ?', [pageUser.id], (err, page) => {
                 if (err) {
                     console.error(err);
                     return res.status(500).send('Database error');
                 }
 
-                // Render page with user and their links
-                res.render('pages/template', {
-                    siteTitle,
-                    discordInvite,
-                    rootDomain,
-                    version,
-                    pageUser,
-                    loggedInUser: req.session.user,
-                    links: links || []
-                });
+                // Get user's links
+                db.all('SELECT * FROM links WHERE user_id = ? AND is_active = 1 ORDER BY position',
+                    [pageUser.id],
+                    (err, links) => {
+                        if (err) {
+                            console.error(err);
+                            return res.status(500).send('Database error');
+                        }
+
+                        const templateName = page?.template || 'default';
+
+                        res.render(`${templateName}/template`, {
+                            siteTitle,
+                            discordInvite,
+                            rootDomain,
+                            version,
+                            pageUser,
+                            loggedInUser: req.session.user,
+                            links: links || []
+                        });
+                    }
+                );
             });
         } else {
             // Not a user page, send 404
@@ -294,22 +282,4 @@ const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// Error handling for server
-server.on('error', (error) => {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
-
-    switch (error.code) {
-        case 'EACCES':
-            console.error(`Port ${port} requires elevated privileges`);
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(`Port ${port} is already in use`);
-            process.exit(1);
-            break;
-        default:
-            throw error;
-    }
-});
+module.exports = app;

@@ -84,4 +84,43 @@ router.post('/delete', requireLogin, (req, res) => {
     );
 });
 
+router.post('/reorder', requireLogin, (req, res) => {
+    const { links } = req.body; // Array of {id, position}
+    const userId = req.session.user.id;
+
+    // Start a transaction to ensure all updates complete
+    db.serialize(() => {
+        db.run('BEGIN TRANSACTION');
+
+        let completedUpdates = 0;
+        const totalUpdates = links.length;
+
+        links.forEach(({ id, position }) => {
+            db.run(
+                'UPDATE links SET position = ? WHERE id = ? AND user_id = ?',
+                [position, id, userId],
+                (err) => {
+                    if (err) {
+                        console.error('Error updating position:', err);
+                        db.run('ROLLBACK');
+                        return res.status(500).json({ error: 'Failed to update positions' });
+                    }
+
+                    completedUpdates++;
+                    if (completedUpdates === totalUpdates) {
+                        db.run('COMMIT', (err) => {
+                            if (err) {
+                                console.error('Error committing transaction:', err);
+                                db.run('ROLLBACK');
+                                return res.status(500).json({ error: 'Failed to commit changes' });
+                            }
+                            res.json({ success: true });
+                        });
+                    }
+                }
+            );
+        });
+    });
+});
+
 module.exports = router;
