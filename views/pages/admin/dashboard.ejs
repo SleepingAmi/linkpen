@@ -1,3 +1,7 @@
+<!-- views/pages/admin/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <%- include('../../partials/head', {siteTitle, rootDomain}) %>
         <link rel="stylesheet" href="/css/admin.css">
@@ -31,9 +35,8 @@
                                             <td>#<%= user.id %>
                                             </td>
                                             <td>
-                                                <a href="/<%= user.username %>" target="_blank">
-                                                    @<%= user.username %>
-                                                </a>
+                                                <a href="/<%= user.username %>" target="_blank">@<%= user.username %>
+                                                        </a>
                                             </td>
                                             <td>
                                                 <% if (user.id !==loggedInUser.id) { %>

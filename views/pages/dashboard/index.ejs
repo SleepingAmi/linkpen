@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../../partials/head', {siteTitle, rootDomain}) %>
+        <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="darkTheme">
+    <%- include('../../partials/header', {siteTitle, discordInvite, rootDomain, user}) %>
+
+        <div class="main_div_one">
+            <div class="main_div_container">
+                <div class="main_div_content">
+                    <div class="dashboard_container">
+                        <div class="dashboard_header">
+                            <h1>Dashboard</h1>
+                            <p>Customize your page and manage your links</p>
+                        </div>
+
+                        <div class="dashboard_content">
+                            <!-- Page Settings -->
+                            <section class="settings_section">
+                                <h2>Page Settings</h2>
+                                <form action="/dashboard/update" method="POST" class="settings_form">
+                                    <div class="form_group">
+                                        <label for="template">Page Template</label>
+                                        <select name="template" id="template">
+                                            <% templates.forEach(function(tmpl) { %>
+                                                <option value="<%= tmpl %>" <%=page.template===tmpl ? 'selected' : '' %>
+                                                    >
+                                                    <%= tmpl.charAt(0).toUpperCase() + tmpl.slice(1) %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="save_button">Save Changes</button>
+                                </form>
+                            </section>
+
+                            <!-- Links Management -->
+                            <section class="links_section">
+                                <h2>Your Links</h2>
+
+                                <!-- Add Link Form -->
+                                <form action="/api/links/add" method="POST" class="add_link_form">
+                                    <div class="form_group">
+                                        <input type="text" name="title" placeholder="Link Title" required
+                                            maxlength="60">
+                                        <input type="url" name="url" placeholder="https://..." required>
+                                        <button type="submit" class="add_button">Add Link</button>
+                                    </div>
+                                </form>
+
+                                <!-- Links List -->
+                                <div class="links_container">
+                                    <% if (links && links.length> 0) { %>
+                                        <% links.forEach(function(link) { %>
+                                            <div class="link_item" data-id="<%= link.id %>">
+                                                <div class="link_content">
+                                                    <div class="draggable">⋮</div>
+                                                    <span class="link_title">
+                                                        <%= link.title %>
+                                                    </span>
+                                                    <div class="link_actions">
+                                                        <button onclick="toggleEditForm('<%= link.id %>')"
+                                                            class="edit_button">Edit</button>
+                                                        <form action="/api/links/delete" method="POST"
+                                                            class="delete_form">
+                                                            <input type="hidden" name="linkId" value="<%= link.id %>">
+                                                            <button type="submit" class="delete_button">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                                <form action="/api/links/update" method="POST" class="edit_link_form"
+                                                    id="edit_form_<%= link.id %>" style="display: none">
+                                                    <input type="hidden" name="linkId" value="<%= link.id %>">
+                                                    <input type="text" name="title" value="<%= link.title %>" required>
+                                                    <input type="url" name="url" value="<%= link.url %>" required>
+                                                    <div class="form_buttons">
+                                                        <button type="submit">Save</button>
+                                                        <button type="button"
+                                                            onclick="toggleEditForm('<%= link.id %>')">Cancel</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <p class="no_links">No links added yet!</p>
+                                                    <% } %>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../partials/footer', {siteTitle, rootDomain, version}) %>
+
+            <script src="/js/Sortable.min.js"></script>
+            <script>
+                function toggleEditForm(linkId) {
+                    const form = document.getElementById(`edit_form_${linkId}`);
+                    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const linksContainer = document.querySelector('.links_container');
+                    if (!linksContainer) return;
+
+                    Sortable.create(linksContainer, {
+                        animation: 150,
+                        handle: '.draggable',
+                        ghostClass: 'sortable-ghost',
+                        onEnd: function (evt) {
+                            const links = Array.from(linksContainer.children).map((item, index) => ({
+                                id: item.dataset.id,
+                                position: index + 1
+                            }));
+
+                            fetch('/api/links/reorder', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ links })
+                            });
+                        }
+                    });
+                });
+            </script>
+</body>
+
+</html>
