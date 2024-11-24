@@ -6,15 +6,23 @@ This guide covers everything you need to know about developing with LinkPen.
 
 ```
 linkpen/
+├── logs/                   # This folder is automatically generated and contains various debug logs
 ├── public/
 │   ├── css/                # Stylesheets
 │   ├── img/                # Images and assets
 │   ├── templates/          # Templates
+│   ├── js/                 # JavaScript
 │   └── docs/               # Documentation
+├── routes/                 # This folder contains various API routes
+├── utils/                  # This folder has the custom event logger
 ├── views/
 │   ├── pages/              # EJS page templates
+│   │   ├── admin/          # Admin page templates
+│   │   ├── auth/           # Auth page templates
+│   │   └── dashboard/      # Dashboard page templates
 │   └── partials/           # Reusable EJS components
 ├── server.js               # Main application file
+├── config.js               # Auth catch-all
 └── global-variables.json   # Global Variables
 ```
 
@@ -31,7 +39,7 @@ npm install
 npm run dev
 ```
 
-## Creating Templates <!-- (im not sure of any of this yet - sooox) -->
+## Creating Templates
 
 Templates are stored in `public/templates/`. To create a new template:
 
@@ -45,8 +53,8 @@ or right-click and "create new folder"
 ```
 my-template/
 ├── template.ejs    # Template markup
-├── style.css       # Template styles
-└── config.json     # Template configuration
+└── style.css       # Template styles
+└── config.json     # Optional template data
 ```
 
 ## Contributing
@@ -71,15 +79,14 @@ git push origin feature/my-new-feature
 - Use ESLint for JavaScript code style
 - Follow the existing project structure
 - Comment your code, adding documentation
-- Add changes to /public/docs
+- Add changes to `/public/docs` where applicable
 - Write meaningful commit messages
 
-## Building Features
-
-Current development priorities:
-- Authentication system
-- Custom redirects
-- Database integration
-- Additional customization options
-
 See our [GitHub Issues](https://github.com/sleepingami/linkpen/issues) for more details.
+
+## Next Steps
+
+- Read the [User Guide](./user-guide.md) to learn about features
+- Check the [Configuration Guide](./configuration.md) for customization
+- Join our [Discord](https://discord.gg/pbV2eFEHBt) for community support
+- Go back to the [Index](./index.md)
