@@ -25,14 +25,22 @@
                                 <form action="/dashboard/update" method="POST" class="settings_form">
                                     <div class="form_group">
                                         <label for="template">Page Template</label>
-                                        <select name="template" id="template">
+                                        <select name="template" id="template" onchange="updateTemplateInfo(this.value)">
                                             <% templates.forEach(function(tmpl) { %>
-                                                <option value="<%= tmpl %>" <%=page.template===tmpl ? 'selected' : '' %>
+                                                <option value="<%= tmpl.id %>"
+                                                    data-description="<%= tmpl.description %>"
+                                                    data-author="<%= tmpl.author %>" <%=page.template===tmpl.id
+                                                    ? 'selected' : '' %>
                                                     >
-                                                    <%= tmpl.charAt(0).toUpperCase() + tmpl.slice(1) %>
+                                                    <%= tmpl.name %>
                                                 </option>
                                                 <% }); %>
                                         </select>
+                                        <p id="template_info" class="template_description">
+                                            <span id="template_description"></span>
+                                            <br>
+                                            <small id="template_author"></small>
+                                        </p>
                                     </div>
                                     <button type="submit" class="save_button">Save Changes</button>
                                 </form>
@@ -79,9 +87,9 @@
                                                     <input type="text" name="title" value="<%= link.title %>" required>
                                                     <input type="url" name="url" value="<%= link.url %>" required>
                                                     <div class="form_buttons">
-                                                        <button type="submit">Save</button>
-                                                        <button type="button"
-                                                            onclick="toggleEditForm('<%= link.id %>')">Cancel</button>
+                                                        <button type="submit" class="save_button">Save</button>
+                                                        <button type="button" onclick="toggleEditForm('<%= link.id %>')"
+                                                            class="delete_button">Cancel</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -127,6 +135,31 @@
                             });
                         }
                     });
+                });
+            </script>
+            <script>
+                function updateTemplateInfo(templateId) {
+                    const option = document.querySelector(`option[value="${templateId}"]`);
+                    const description = option.getAttribute('data-description');
+                    const author = option.getAttribute('data-author');
+
+                    const descriptionEl = document.getElementById('template_description');
+                    const authorEl = document.getElementById('template_author');
+                    const infoEl = document.getElementById('template_info');
+
+                    if (description || author) {
+                        descriptionEl.textContent = description;
+                        authorEl.textContent = author ? `by ${author}` : '';
+                        infoEl.style.display = 'block';
+                    } else {
+                        infoEl.style.display = 'none';
+                    }
+                }
+
+                // Initialize template info on page load
+                document.addEventListener('DOMContentLoaded', function () {
+                    const select = document.getElementById('template');
+                    updateTemplateInfo(select.value);
                 });
             </script>
 </body>
