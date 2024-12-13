@@ -1,7 +1,17 @@
 {
     "default": {
-        "name": "Catppuccin Theme (Default) 💜",
+        "name": "Catppuccin Frappé (Default)",
         "author": "Linkpen Dev team",
-        "description": "A modern, cozy theme from the Catppuccin family"
+        "description": "😸 Soothing pastel theme for the high-spirited!"
+    },
+    "purpleboi": {
+        "name": "purpleboi (TTS Tribute)",
+        "author": "Linkpen Dev team",
+        "description": "Tribute to TallerThanShort's purpleboi theme."
+    },
+    "dark_mocha": {
+        "name": "Dark Mocha",
+        "author": "Linkpen Dev team",
+        "description": "A rich, brown theme."
     }
 }

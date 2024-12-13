@@ -1,9 +1,13 @@
 /* Layout */
-body.darkTheme {
+body.tallTheme {
+    background-image: linear-gradient(to bottom right, rgb(24, 0, 38) 60%, rgb(32, 0, 20) 100%, rgb(51, 0, 81) 60%, rgb(116, 69, 217) 100%);;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-background);
+    color: rgb(255, 255, 255);
 }
 
 .main_div_one {
@@ -14,6 +18,7 @@ body.darkTheme {
     flex-direction: column;
     padding-top: var(--spacing-xl);
     padding-bottom: var(--spacing-xl);
+    background: transparent;
 }
 
 /* Profile Container */
@@ -26,16 +31,17 @@ body.darkTheme {
 
 /* Profile Header */
 .profile_header {
+    font-family: 'Courier New', Courier, monospace;
     text-align: center;
     margin-bottom: var(--spacing-xl);
-    padding: var(--spacing-lg);
-    background-color: var(--color-surface-alt);
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 6px var(--color-shadow);
+    padding: var(--spacing-md);
+    background-color: rgb(0, 0, 0);
+    border-left: 4px solid rgb(250, 250, 0);
+    border-radius: var(--radius-sm);
 }
 
 .profile_header h1 {
-    font-size: var(--text-xl);
+    font-size: 3rem;
     color: var(--color-text);
     margin-bottom: var(--spacing-md);
     font-weight: var(--font-bold);
@@ -48,16 +54,18 @@ body.darkTheme {
 
 .edit_button a {
     display: inline-block;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background-color: var(--color-accent);
-    color: var(--color-surface);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgb(116, 69, 217);
+    color:rgb(156, 150, 150);
+    border-radius: var(--radius-md);
     text-decoration: none;
     transition: var(--transition-normal);
+    font-weight: 600;
 }
 
 .edit_button a:hover {
-    background-color: var(--color-feature);
+    background-color: rgb(138, 43, 226);
+    color: rgb(255, 255, 255);
     transform: translateY(-2px);
 }
 
@@ -81,8 +89,8 @@ body.darkTheme {
     display: block;
     width: 100%;
     padding: var(--spacing-md) 0;
-    background-color: var(--color-surface-alt);
-    color: var(--color-text);
+    background-color: rgb(116, 69, 217);
+    color: rgb(156, 150, 150);
     text-align: center;
     text-decoration: none;
     border-radius: var(--radius-md);
@@ -92,8 +100,8 @@ body.darkTheme {
 
 .link_button:hover {
     transform: translateY(-2px);
-    background-color: var(--color-feature);
-    box-shadow: 0 4px 6px var(--color-shadow);
+    color: rgb(255, 255, 255);
+    background-color: rgb(138, 43, 226);
 }
 
 .no_links {
