@@ -1,3 +1,49 @@
+<link rel="stylesheet" href="/css/navbar.css">
+<div class="mobileNav" id="mobileNav">
+    <button onclick="mobileNavClose()" class="mobileNavOptionStyler">Close &times;</button>
+    <div class="mobile_nav_options">
+        <a class="mobileNavOptionStyler" href="https://github.com/SleepingAmi/linkpen/tree/main/public/templates">
+            <div>
+                <span style="white-space: nowrap; font-size: 15px; line-height: 1.5;">templates</span>
+            </div>
+        </a>
+        <a class="mobileNavOptionStyler" href="/about">
+            <div>
+                <span
+                    style="white-space: nowrap; font-size: 15px; line-height: 1.5;">about</span>
+            </div>
+        </a>
+        <a class="mobileNavOptionStyler" href="<%- discordInvite %>">
+            <div>
+                <span
+                    style="white-space: nowrap; font-size: 15px; line-height: 1.5;">discord</span>
+            </div>
+        </a>
+        <a class="mobileNavOptionStyler" href="https://github.com/SleepingAmi/linkpen/tree/main/public/docs">
+            <div>
+                <span
+                    style="white-space: nowrap; font-size: 15px; line-height: 1.5;">learn</span>
+            </div>
+        </a>
+        <% if (locals.user && locals.user.isAdmin) { %>
+        <a class="mobileNavOptionStyler" href="/dashboard/admin">
+            <div>
+                <span
+                    style="white-space: nowrap; font-size: 15px; line-height: 1.5;">Dashboard</span>
+            </div>
+        </a>
+        <% } %>
+        <% if (locals.user) { %>
+            <a href="/<%- user.username %>" class="mobileNavOptionStyler">
+                <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;"><%- user.username %></span>
+            </a>
+        <% } else { %>
+            <a href="/" class="mobileNavOptionStyler">
+                <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">Login</span>
+            </a>
+        <% } %>
+    </div>
+</div>
 <div id="page_header_container" role="banner">
     <div class="page_header">
         <div class="page_header_content" width="100%">
@@ -50,6 +96,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div style="min-width: 0; display: flex;" class="authbuttons">
                         <% if (locals.user) { %>
                             <!-- Logged in user menu -->
@@ -107,15 +154,31 @@
                             </div>
                     </div>
                 </div>
+                <div class="mobileHamburgerMenu">
+                    <div class="page_head_nav">
+                        <div class="page_nav">
+                            <a aria-current="page" href="<%- rootDomain %>">
+                                <div class="page_title">
+                                    <h1><%- siteTitle %></h1>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="mobileNavButtonContainer">
+                            <button class="mobileNavButtonOpen" onclick="mobileNavOpen()">☰</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="spacer"></div>
+</div>
 
-    <style>
-        @media screen and (max-width: 768px) {
-            .hideOnMobile {
-                display: none;
-            }
-        }
-    </style>
+<script>
+    function mobileNavOpen() {
+      document.getElementById("mobileNav").style.display = "block";
+    }
+    
+    function mobileNavClose() {
+      document.getElementById("mobileNav").style.display = "none";
+    }
+</script>
