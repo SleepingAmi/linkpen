@@ -124,45 +124,41 @@
                                         </button>
                                     </form>
                                 </div>
-                                <% } else { %>
-                                    <!-- Login/Register buttons -->
-                                    <div class="auth_btn_container" style="display: flex; gap: 8px;">
+                            <% } else { %>
+                                <!-- Login/Register buttons -->
+                                <div class="auth_btn_container" style="display: flex; gap: 8px;">
+                                    <div class="auth_btn">
+                                        <a class="auth_action" href="/login" tabindex="0">
+                                            <div class="auth_btn_content">
+                                                <span
+                                                    style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                    login
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <% if (isPublic) { %>
                                         <div class="auth_btn">
-                                            <a class="auth_action" href="/login" tabindex="0">
+                                            <a class="auth_action" href="/register" tabindex="0">
                                                 <div class="auth_btn_content">
                                                     <span
                                                         style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                        login
+                                                        register
                                                     </span>
                                                 </div>
                                             </a>
                                         </div>
-                                        <% if (isPublic) { %>
-                                            <div class="auth_btn">
-                                                <a class="auth_action" href="/register" tabindex="0">
-                                                    <div class="auth_btn_content">
-                                                        <span
-                                                            style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                            register
-                                                        </span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <% } %>
-                                    </div>
                                     <% } %>
-                            </div>
-                    </div>
-                </div>
-                <div class="mobileHamburgerMenu">
-                    <div class="page_head_nav">
-                        <div class="page_nav">
-                            <a aria-current="page" href="<%- rootDomain %>">
-                                <div class="page_title">
-                                    <h1><%- siteTitle %></h1>
                                 </div>
-                            </a>
+                            <% } %>
                         </div>
+                    </div>
+                    <div class="mobileHamburgerMenu">
+                        <a aria-current="page" href="<%- rootDomain %>">
+                            <div class="page_title">
+                                <h1><%- siteTitle %></h1>
+                            </div>
+                        </a>
                         <div class="mobileNavButtonContainer">
                             <button class="mobileNavButtonOpen" onclick="mobileNavOpen()">☰</button>
                         </div>

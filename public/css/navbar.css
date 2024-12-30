@@ -99,6 +99,7 @@ div#page_header_container .page_header {
 
 .authbuttons {
     display: block;
+    justify-self: flex-end;
 }
 
 .authBtns {
@@ -148,8 +149,8 @@ div#page_header_container .page_header {
 }
 
 .mobileNavButtonContainer {
-    min-width: 0;
     display: flex;
+    justify-self: flex-end;
 }
 
 .mobileNav {
@@ -176,7 +177,6 @@ div#page_header_container .page_header {
     font-size: 18px !important;
     border: none;
     background: transparent !important;
-    vertical-align: middle;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
@@ -195,8 +195,9 @@ div#page_header_container .page_header {
     background: transparent;
     color: var(--color-accent);
     font-weight: 900;
-    font-size: larger;
-    margin-left: 12.5rem;
+    font-size: x-large;
+    display: flex;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 1460px) {
@@ -257,7 +258,7 @@ div#page_header_container .page_header {
     
 }
 
-@media screen and (min-width: 320px) {
+@media screen and (min-width: 0) {
 
     /* Mobile */
     .page_header_content {
@@ -293,6 +294,8 @@ div#page_header_container .page_header {
         justify-content: space-between;
         -moz-box-align: center;
         align-items: center;
+        width: 100%;
+        padding: var(--spacing-xs);
     }
 }
 

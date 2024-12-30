@@ -663,10 +663,6 @@ form {
 @media screen and (max-width: 950px) {
 
     /* Mobile Navigation Adjustments */
-    .authbuttons {
-        display: none !important;
-    }
-
     .nav_option {
         padding: 11px 1px 11px 10px;
     }
