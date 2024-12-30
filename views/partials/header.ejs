@@ -37,10 +37,18 @@
             <a href="/<%- user.username %>" class="mobileNavOptionStyler">
                 <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;"><%- user.username %></span>
             </a>
+            <a href="/api/logout" class="mobileNavOptionStyler">
+                <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">Logout</span>
+            </a>
         <% } else { %>
-            <a href="/" class="mobileNavOptionStyler">
+            <a href="/login" class="mobileNavOptionStyler">
                 <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">Login</span>
             </a>
+            <% if (isPublic) { %>
+                <a href="/register" class="mobileNavOptionStyler">
+                    <span style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">Register</span>
+                </a>
+            <% } %>
         <% } %>
     </div>
 </div>
