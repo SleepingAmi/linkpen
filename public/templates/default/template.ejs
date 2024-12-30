@@ -14,7 +14,7 @@
                 <div class="main_div_content">
                     <div class="profile_container">
                         <div class="profile_header">
-                            <h1>Welcome to <%- pageUser.username %>'s page!</h1>
+                            <h1>Welcome to <%- pageUser.username %><% if(pageUser.username.endsWith('s')) { %>'<% } else { %>'s<% } %> page!</h1>
                             <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
                                 <div class="edit_button">
                                     <a href="/dashboard">Edit Page</a>
