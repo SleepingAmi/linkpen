@@ -91,7 +91,7 @@
                                                     style="white-space: nowrap; font-size: 15px; line-height: 1.5;">Dashboard</span>
                                             </div>
                                         </a>
-                                        <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -137,31 +137,30 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <% if (isPublic) { %>
-                                        <div class="auth_btn">
-                                            <a class="auth_action" href="/register" tabindex="0">
-                                                <div class="auth_btn_content">
-                                                    <span
-                                                        style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
-                                                        register
-                                                    </span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    <% } %>
-                                </div>
+                                <% if (isPublic) { %>
+                                    <div class="auth_btn">
+                                        <a class="auth_action" href="/register" tabindex="0">
+                                            <div class="auth_btn_content">
+                                                <span
+                                                    style="white-space: nowrap; text-transform: capitalize; font-size: 16px; font-weight: 400; color: #c6d0f5;">
+                                                    register
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <% } %>
                             <% } %>
                         </div>
                     </div>
-                    <div class="mobileHamburgerMenu">
-                        <a aria-current="page" href="<%- rootDomain %>">
-                            <div class="page_title">
-                                <h1><%- siteTitle %></h1>
-                            </div>
-                        </a>
-                        <div class="mobileNavButtonContainer">
-                            <button class="mobileNavButtonOpen" onclick="mobileNavOpen()">☰</button>
+                </div>
+                <div class="mobileHamburgerMenu">
+                    <a aria-current="page" href="<%- rootDomain %>">
+                        <div class="page_title">
+                            <h1><%- siteTitle %></h1>
                         </div>
+                    </a>
+                    <div class="mobileNavButtonContainer">
+                        <button class="mobileNavButtonOpen" onclick="mobileNavOpen()">☰</button>
                     </div>
                 </div>
             </div>
