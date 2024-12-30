@@ -13,5 +13,15 @@
         "name": "Dark Mocha",
         "author": "Linkpen Dev team",
         "description": "A rich, brown theme."
+    },
+    "vscode_dark": {
+        "name": "VS Code Dark",
+        "author": "sooox",
+        "description": "🎯 A sleek, modern theme inspired by VS Code's interface"
+    },
+    "matrix_monitor": {
+        "name": "Privacymatters theme",
+        "author": "sooox",
+        "description": "🖥️ Modern monitoring dashboard with glowing accents"
     }
 }
