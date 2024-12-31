@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../../views/partials/head', {siteTitle, rootDomain, pageUser}) %>
+        <link rel="stylesheet" href="/templates/catcafe/style.css">
+</head>
+
+<body class="catCafeTheme">
+    <%- include('../../views/partials/header', { siteTitle, discordInvite, rootDomain, user: loggedInUser }) %>
+
+        <div class="cafe-container">
+            <div class="menu-board">
+                <div class="profile-header">
+                    <h1>
+                        <span class="cafe-emoji">☕</span>
+                        <%= pageUser.username %>'s Cat Café
+                            <span class="cat-emoji">🐈</span>
+                    </h1>
+
+                    <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
+                        <div class="edit-menu">
+                            <a href="/dashboard" class="edit-button">
+                                <span class="edit-icon">✏️</span> Edit Menu
+                            </a>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div class="menu-items">
+                    <% if (links && links.length> 0) { %>
+                        <% links.forEach(function(link, index) { %>
+                            <a href="<%- link.url %>" target="_blank" rel="noopener noreferrer" class="menu-link">
+                                <span class="paw-icon">🐾</span>
+                                <span class="link-title"><%- link.title %></span>
+                            </a>
+                            <% }); %>
+                                <% } else { %>
+                                    <div class="empty-menu">
+                                        <p>
+                                            <span class="cat-emoji">😺</span>
+                                            Our menu is being prepped...
+                                            <span class="cat-emoji">🐱</span>
+                                        </p>
+                                    </div>
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../views/partials/footer', {siteTitle, rootDomain, version}) %>
+</body>
+
+</html>
