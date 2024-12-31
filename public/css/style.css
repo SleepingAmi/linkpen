@@ -92,143 +92,7 @@ form {
 
 /* Header Component
 ------------------------------------------------- */
-div#page_header_container {
-    transition: var(--transition-fast);
-    min-width: 0px;
-    background-color: transparent;
-    position: sticky;
-    top: 0px;
-    left: 0px;
-    z-index: 100;
-    right: 0px;
-}
 
-div#page_header_container .page_header {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-    -moz-box-pack: center;
-    justify-content: center;
-}
-
-.page_header_content {
-    min-width: 0px;
-    padding-left: var(--spacing-sm);
-    padding-right: var(--spacing-sm);
-    padding-top: var(--spacing-sm);
-    max-width: none;
-    flex: 1 1 0%;
-    width: 100%;
-}
-
-.page_head_container {
-    min-width: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: var(--spacing-xs);
-    background-color: rgba(41, 44, 60, 0.9);
-    /* Thanks @soox-cc for the amazing transparent background w/blur FX! */
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-md);
-    border-width: 1px;
-    border-color: var(--color-border);
-    border-style: solid;
-    position: relative;
-}
-
-.page_head {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-    flex-direction: row;
-    -moz-box-pack: justify;
-    justify-content: space-between;
-    -moz-box-align: center;
-    align-items: center;
-}
-
-.page_head_nav {
-    min-width: 0px;
-    padding: var(--spacing-xs);
-}
-
-.page_nav {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-    -moz-box-align: center;
-    align-items: center;
-}
-
-.page_title {
-    min-width: 0px;
-    margin-right: var(--spacing-lg);
-    width: var(--nav-item-width);
-}
-
-.menuitem {
-    text-transform: capitalize;
-    min-width: 0px;
-    position: relative;
-}
-
-.nav_option {
-    min-width: 0px;
-    padding: 11px var(--spacing-sm);
-    border-radius: var(--radius-sm);
-}
-
-.nav_options {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-}
-
-.authbuttons {
-    display: block;
-}
-
-.authBtns {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-    gap: var(--spacing-xs);
-}
-
-.auth_btn {
-    display: flex;
-    box-sizing: border-box;
-    min-width: 0px;
-    -moz-box-pack: start;
-    justify-content: flex-start;
-}
-
-.auth_action {
-    text-decoration: none;
-    color: inherit;
-    outline: none;
-}
-
-.auth_btn_content::before {
-    content: "";
-    display: block;
-    position: absolute;
-    inset: 6px;
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: var(--radius-round);
-    z-index: -2;
-    transition: none;
-    visibility: hidden;
-}
-
-.auth_btn_content {
-    position: relative;
-    z-index: 1;
-    background-color: var(--color-surface);
-    border-radius: var(--radius-pill);
-    min-width: 0px;
-    padding: 18px 26px 20px;
-}
 
 /* Hero Component
 ------------------------------------------------- */
@@ -626,16 +490,6 @@ div#page_header_container .page_header {
 @media screen and (min-width: 1460px) {
 
     /* Desktop Large */
-    .page_header_content {
-        max-width: 1728px;
-        padding-left: var(--spacing-2xl);
-        padding-right: var(--spacing-2xl);
-    }
-
-    .page_head_nav {
-        padding-left: var(--spacing-md) !important;
-    }
-
     .slogan_container {
         max-width: 1728px;
         padding-left: var(--spacing-2xl);
@@ -654,21 +508,6 @@ div#page_header_container .page_header {
 @media screen and (min-width: 955px) {
 
     /* Desktop */
-    .page_header_content {
-        max-width: 1536px;
-        padding-left: var(--spacing-lg);
-        padding-right: var(--spacing-lg);
-        padding-top: var(--spacing-lg);
-    }
-
-    .page_head_container {
-        padding: 12px;
-    }
-
-    .page_head_nav {
-        padding-left: var(--spacing-xs);
-    }
-
     .slogan_container {
         max-width: 1536px;
         padding-left: var(--spacing-lg);
@@ -694,33 +533,11 @@ div#page_header_container .page_header {
     .handleCreationModule {
         width: 50% !important;
     }
-
-    .onboarding_feature {
-        padding-left: var(--spacing-lg) !important;
-        padding-right: var(--spacing-lg) !important;
-    }
 }
 
 @media screen and (min-width: 768px) {
 
     /* Tablet */
-    .page_header_content {
-        max-width: none;
-        padding-left: var(--spacing-md);
-        padding-right: var(--spacing-md);
-        padding-top: var(--spacing-sm);
-    }
-
-    .page_head_container {
-        margin-left: -16px;
-        margin-right: -16px;
-        padding: var(--spacing-xs);
-    }
-
-    .page_head_nav {
-        padding-left: var(--spacing-xs);
-    }
-
     .main_div_one {
         min-height: 100vh;
         padding-top: 128px;
@@ -755,11 +572,6 @@ div#page_header_container .page_header {
 
     .handleCreationModule {
         width: 100%;
-    }
-
-    .onboarding_feature {
-        padding-left: var(--spacing-lg);
-        padding-right: var(--spacing-lg);
     }
 
     .onboardingForm {
@@ -807,23 +619,6 @@ div#page_header_container .page_header {
 @media screen and (min-width: 320px) {
 
     /* Mobile */
-    .page_header_content {
-        max-width: none;
-        padding-left: var(--spacing-sm);
-        padding-right: var(--spacing-sm);
-        padding-top: var(--spacing-sm);
-    }
-
-    .page_head_container {
-        margin-left: auto;
-        margin-right: auto;
-        padding: var(--spacing-xs);
-    }
-
-    .page_head_nav {
-        padding-left: var(--spacing-xs);
-    }
-
     .main_div_one {
         min-height: auto;
         padding-top: var(--spacing-xl);
@@ -860,11 +655,6 @@ div#page_header_container .page_header {
         width: 100%;
     }
 
-    .onboarding_feature {
-        padding-left: 18px;
-        padding-right: 18px;
-    }
-
     .onboardingForm {
         align-items: flex-start;
     }
@@ -873,14 +663,6 @@ div#page_header_container .page_header {
 @media screen and (max-width: 950px) {
 
     /* Mobile Navigation Adjustments */
-    .authbuttons {
-        display: none !important;
-    }
-
-    .page_head_nav {
-        padding-left: var(--spacing-xs) !important;
-    }
-
     .nav_option {
         padding: 11px 1px 11px 10px;
     }
@@ -888,12 +670,4 @@ div#page_header_container .page_header {
     .fancyWrapper {
         width: 125px;
     }
-
-    /*
-        Enable to allow mobile user signup
-        Otherwise mobile UI has no navigation to /auth
-    */
-    /*.handleCreationModule {
-        display: none !important;
-    }*/
 }
