@@ -23,5 +23,10 @@
         "name": "Privacymatters theme",
         "author": "sooox",
         "description": "🖥️ Modern monitoring dashboard with glowing accents"
+    },
+    "catcafe": {
+        "name": "Cozy Cat Café",
+        "author": "sooox",
+        "description": "🐱 A warm and inviting theme inspired by cat cafés, featuring soft colors and playful design elements"
     }
 }
