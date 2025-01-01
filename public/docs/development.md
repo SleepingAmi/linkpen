@@ -23,7 +23,8 @@ linkpen/
 │   └── partials/           # Reusable EJS components
 ├── server.js               # Main application file
 ├── config.js               # Auth catch-all
-└── global-variables.json   # Global Variables
+├── global-variables.json   # Global Variables
+└── database.sqlite         # SQLite Database (auto-generated)
 ```
 
 ## Local Development
@@ -34,7 +35,31 @@ linkpen/
 npm install
 ```
 
-2. Start development server with auto-reload:
+2. Modify the `global-variables.json`:
+<details>
+<summary>Summary</summary>
+<ul>
+    <li>rootDomain - Your instances root domain. You must include http://</li>
+    <li>hostPort - The port you want to use. We recommend 5500 or 8800.</li>
+    <li>siteTitle - The title of your instance. Must be a string of 8 characters or less.</li>
+    <li>discordInvite - An invite to your community discord. This is optional.</li>
+    <li>database_key - A private database key. DO NOT SHARE THIS WITH ANYONE!</li>
+    <li>isPublic - Set to true to allow account creations. You won't be able to create any accounts, not even your own, if this is false. The first account, preferrably yours, will be an admin account!</li>
+</ul>
+</details><br>
+
+```json
+{
+  "rootDomain": "http://your-domain.com",
+  "hostPort": "5500",
+  "siteTitle": "LinkPen",
+  "discordInvite": "https://discord.gg/your-invite-link",
+  "database_key": "your_database_secret_key",
+  "isPublic": false
+}
+```
+
+3. Start development server with auto-reload:
 ```bash
 npm run dev
 ```
@@ -54,8 +79,26 @@ or right-click and "create new folder"
 my-template/
 ├── template.ejs    # Template markup
 └── style.css       # Template styles
-└── config.json     # Optional template data
 ```
+
+Additionally, you will need to modify the `config` file at `public/templates/config.json`
+
+```json
+
+{
+    "default": {
+        "name": "Catppuccin Frappé (Default)",
+        "author": "Linkpen Dev team",
+        "description": "😸 Soothing pastel theme for the high-spirited!"
+    },
+    "your_theme": {
+        "name": "yourTheme",
+        "author": "You :)",
+        "description": "Wow, a description."
+    }
+}
+```
+*replace `your_theme` with your theme's folder name and fill in the details according to your theme.
 
 ## Contributing
 

@@ -29,15 +29,14 @@ npm install
 ```
 
 3. Customise configuration file:
-```bash
-# global-variables.json in the root directory
+```json
 {
-  "rootDomain": "http://your-domain.com",                 # NOTE: Adding http:// is mandatory. HTTPS is recommended!
+  "rootDomain": "http://your-domain.com",                 // NOTE: Adding http:// is mandatory. HTTPS is recommended!
   "hostPort": "5500",
-  "siteTitle": "LinkPen",                                 # String; 8 characters or less
-  "discordInvite": "https://discord.gg/your-invite-link", # Preferrably a permanent link
-  "database_key": "your_database_secret_key",             # DO NOT SHARE THIS KEY WITH ANYONE!
-  "isPublic": false                                       # Set this to true if you want to allow anyone to use your instance
+  "siteTitle": "LinkPen",                                 // String; 8 characters or less
+  "discordInvite": "https://discord.gg/your-invite-link", // Preferrably a permanent link
+  "database_key": "your_database_secret_key",             // DO NOT SHARE THIS KEY WITH ANYONE!
+  "isPublic": false                                       // Set this to true if you want to allow anyone to use your instance
 }
 ```
 
