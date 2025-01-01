@@ -142,6 +142,7 @@
     color: #666;
 }
 
+/* Desktop Navbar */
 .vscode-theme #page_header_container {
     transition: 0.1s ease-in-out;
     min-width: 0;
@@ -150,7 +151,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 1;
     border-bottom: 1px solid var(--vscode-border);
 }
 
@@ -170,6 +171,7 @@
     min-width: 0;
     padding: 0.25rem;
     background-color: var(--vscode-bg);
+    position: relative;
 }
 
 .vscode-theme .page_head {
@@ -244,6 +246,66 @@
     white-space: nowrap;
 }
 
+/* Mobile Nav */
+.vscode-theme .mobileHamburgerMenu {
+    display: none;
+    box-sizing: border-box;
+    min-width: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-xs);
+}
+
+.vscode-theme .mobileNav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    z-index: 2;
+    background-color: var(--vscode-bg);
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.vscode-theme .mobileNavButtonContainer {
+    display: flex;
+    justify-self: flex-end;
+}
+
+.vscode-theme .mobileNavButtonOpen {
+    border: none;
+    background: transparent;
+    color: var(--vscode-fg);
+    font-weight: 900;
+    font-size: x-large;
+    display: flex;
+    cursor: pointer;
+}
+
+.vscode-theme .mobileNavOptionStyler {
+    width: 100%;
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    border: none;
+    white-space: normal;
+    float: none;
+    outline: 0;
+    font-size: 18px !important;
+    border: none;
+    background: transparent !important;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    height: 32px;
+    border-bottom: 1px solid var(--vscode-border);
+    color: var(--vscode-fg);
+}
+
+/* Media queries */
 @media (max-width: 480px) {
     .vscode-theme .page_title h1 {
         font-size: 0.875rem;
@@ -255,8 +317,52 @@
     }
 }
 
+@media screen and (max-width: 760px) {
+
+    /* Hide desktop nav */
+    .vscode-theme .page_head {
+        display: none !important;
+    }
+
+    /* Show mobile nav container */
+    .vscode-theme .mobileHamburgerMenu {
+        display: flex !important;
+    }
+
+    /* Reset margins for mobile */
+    .vscode-theme .page_head_container {
+        margin: 0;
+        border-radius: 0;
+        padding: 8px;
+    }
+
+    /* Keep header visible */
+    .vscode-theme .page_header_content {
+        padding: 0;
+        width: 100%;
+    }
+
+    .vscode-theme .page_title h1 {
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    /* Only hide header when mobile menu is open */
+    .vscode-theme .mobileNav[style*="display: block"]~#page_header_container {
+        display: none !important;
+    }
+}
+
 /* Responsive Design */
-@media (max-width: 768px) {
+@media screen and (min-width: 760px) {
+
+    .vscode-theme .mobileHamburgerMenu {
+        display: none !important;
+    }
+
+    .vscode-theme .page_head {
+        display: flex;
+    }
 
     .vscode-theme .page_header_content {
         padding: 0.25rem;
