@@ -22,6 +22,9 @@
     <div class="container">
         <h1>Register</h1>
         <form action="/api/register" method="post">
+            <!-- Add CSRF token as hidden input -->
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
             <div class="form_group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required pattern="[a-zA-Z0-9_-]{3,20}"

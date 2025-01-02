@@ -96,7 +96,7 @@ router.post('/dashboard/update', requireLogin, (req, res) => {
     const { template } = req.body;
     const userId = req.session.user.id;
 
-    console.log('Updating template to:', template); // Debug log
+    // console.log('Updating template to:', template); // Debug log // commented out because ami doesnt like cluttered console lol
 
     // Validate template exists
     if (!templateExists(template)) {

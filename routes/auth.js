@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { rootDomain, siteTitle, discordInvite, isPublic } = require('../global-variables.json');
 const { version } = require('../package.json');
+const { generateCSRFToken } = require('../middleware/security');
+
+// Add the generateCSRFToken middleware to all routes
+router.use(generateCSRFToken);
 
 // Login page
 router.get('/login', (req, res) => {
