@@ -14,6 +14,9 @@ const port = hostPort || 8800;
 // Initialize Express
 const app = express();
 
+// Trust proxy - required for rate limiting behind reverse proxies (cloudflare tunnel)
+app.set('trust proxy', 1);
+
 // Database setup
 const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
     if (err) {

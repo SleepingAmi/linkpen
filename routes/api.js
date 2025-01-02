@@ -8,12 +8,29 @@ const { version } = require('../package.json');
 const config = require(path.join(__dirname, '..', 'config.js'));
 const sqlite3 = require('sqlite3').verbose();
 const { logAuth, logError } = require('../utils/logger');
+const {
+    apiLimiter,
+    authLimiter,
+    secureAPI,
+    sanitizeInput,
+    csrfProtection,
+    generateCSRFToken
+} = require('../middleware/security');
 
+// Apply security middleware globally to all API routes
+router.use(apiLimiter);
+router.use(sanitizeInput);
+router.use(generateCSRFToken);
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect to the database
 const db = new sqlite3.Database('./database.sqlite');
+
+// Health check route - no rate limiting needed
+router.get('/', async (req, res, next) => {
+    res.send({ "healthCheck": "pass", "rootDomain": rootDomain, "online": true });
+});
 
 // Validation functions
 function validateUsername(username) {
@@ -64,12 +81,10 @@ function validatePassword(password) {
     return null;
 }
 
-router.get('/', async (req, res, next) => {
-    res.send({ "healthCheck": "pass", "rootDomain": rootDomain, "online": true });
-})
+// Apply stricter rate limiting to auth routes
 
 // Sign Up New Users
-router.post('/register', async (req, res, next) => {
+router.post('/register', authLimiter, csrfProtection, async (req, res, next) => {
     const { username, password } = req.body;
 
     // Validate inputs
@@ -158,7 +173,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 // Login Existing Users
-router.post('/login', async (req, res, next) => {
+router.post('/login', authLimiter, csrfProtection, async (req, res, next) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -236,7 +251,8 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-router.get('/logout', (req, res) => {
+// Secure logout route
+router.get('/logout', secureAPI, (req, res) => {
     const username = req.session?.user?.username;
 
     // Destroy the session
