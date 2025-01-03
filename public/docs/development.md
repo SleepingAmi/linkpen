@@ -14,7 +14,7 @@ linkpen/
 │   ├── js/                 # JavaScript
 │   └── docs/               # Documentation
 ├── routes/                 # This folder contains various API routes
-├── utils/                  # This folder has the custom event logger
+├── utils/                  # This folder contains various tools
 ├── views/
 │   ├── pages/              # EJS page templates
 │   │   ├── admin/          # Admin page templates
@@ -37,7 +37,7 @@ npm install
 
 2. Modify the `global-variables.json`:
 <details>
-<summary>Summary</summary>
+<summary style="cursor:pointer;">Summary</summary>
 <ul>
     <li>rootDomain - Your instances root domain. You must include http://</li>
     <li>hostPort - The port you want to use. We recommend 5500 or 8800.</li>
@@ -99,6 +99,8 @@ Additionally, you will need to modify the `config` file at `public/templates/con
 }
 ```
 *replace `your_theme` with your theme's folder name and fill in the details according to your theme.
+
+\*\*For a more in-depth guide, navigate to [Templates](./templates.md)
 
 ## Contributing
 

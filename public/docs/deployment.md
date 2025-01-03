@@ -38,7 +38,7 @@ npm install
 
 To correctly configure your instance, you must modify the `global-variables.json` file.
 <details>
-<summary>Summary</summary>
+<summary style="cursor:pointer;">Summary</summary>
 <ul>
     <li>rootDomain - Your instances root domain. You must include http://</li>
     <li>hostPort - The port you want to use. We recommend 5500 or 8800.</li>
