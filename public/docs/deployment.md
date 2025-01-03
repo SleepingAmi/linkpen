@@ -66,8 +66,17 @@ If you want to modify the frontend code, you can freely do so with:
 ```bash
 npm run dev
 ```
+Alternatively,
+```bash
+npm run start
+```
+
+**NOTICE:** After creating the first (admin) account, you will need to restart the app to see the dashboard.
 
 **We recommend using [pm2](https://pm2.keymetrics.io/) to keep your process alive.**
+
+<details>
+<summary style="cursor:pointer;">pm2 crash course</summary>
 
 To install pm2:
 ```bash
@@ -93,6 +102,7 @@ Alternatively, if you do change the source code and want pm2 to fetch the new so
 ```bash
 pm2 restart linkpen
 ```
+</details>
 
 ### 5. Nginx Configuration
 

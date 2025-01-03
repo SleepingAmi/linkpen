@@ -35,8 +35,8 @@ After you've created your template's folder, you will need to modify the `config
 ```
 *replace `your_theme` with your **template's folder name** and fill in the details according to your theme.
 
-_Image for reference, using the Default template shown above:_
-<img src="../img/themeChangerPreview.png" style="max-width: 100%; height: auto;">
+<sup>_Image for reference, using the Default template shown above:_</sup>
+<img src="https://raw.githubusercontent.com/SleepingAmi/linkpen/refs/heads/main/public/img/themeChangerPreview.png" style="max-width: 100%; height: auto;">
 
 
 ## Quick Links
