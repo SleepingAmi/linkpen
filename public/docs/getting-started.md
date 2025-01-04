@@ -17,7 +17,6 @@ Before you begin, ensure you have:
 git clone https://github.com/sleepingami/linkpen.git
 cd linkpen
 ```
-
 or alternatively, if you want to clone to the current directory:
 ```bash
 git clone https://github.com/sleepingami/linkpen.git .
@@ -44,7 +43,6 @@ npm install
 ```bash
 npm run dev
 ```
-
 or alternatively, if you don't want to modify source code:
 ```bash
 npm run start

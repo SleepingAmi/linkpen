@@ -32,6 +32,11 @@ Welcome to the LinkPen documentation! LinkPen is an open-source, self-hosted alt
   - Platform Specific Instructions
   - Production Best Practices
 
+- [Templates](./templates.md)
+  - Getting Started
+  - Guidelines
+  - Shorthands
+
 - [API Reference](./api-reference.md)
   - Endpoints
   - Authentication
