@@ -126,6 +126,81 @@ input[type="submit"]:hover {
     font-weight: var(--font-bold);
 }
 
+.validation-messages {
+    padding-bottom: 1rem;
+}
+
+.validation-message {
+    margin: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+}
+
+.validation-icon {
+    display: inline-flex;
+    width: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+.validation-message.valid {
+    color: #4ade80;
+}
+
+.validation-message.invalid {
+    color: #ef4444;
+}
+
+/* Match the dark theme */
+.darkTheme .validation-message {
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+.darkTheme .validation-message.valid {
+    color: #4ade80;
+    opacity: 1;
+}
+
+.darkTheme .validation-message.invalid {
+    color: #ef4444;
+    opacity: 1;
+}
+
+.terms-checkbox {
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    text-align: left;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+.terms-checkbox label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+.terms-checkbox a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+    text-decoration: underline;
+}
+
+s-checkbox a:hover {
+    text-decoration: underline;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 400px) {
     .container {

@@ -27,15 +27,24 @@
 
             <div class="form_group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required pattern="[a-zA-Z0-9_-]{3,20}"
+                <input type="text" id="username" name="username" required
                     title="3-20 characters, letters, numbers, underscores, and hyphens only">
             </div>
 
             <div class="form_group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required minlength="8" maxlength="128"
-                    title="use at least 8 characters, a uppercase letter, a lowercase letter, and a number">
+                <input type="password" id="password" name="password" required
+                    title="Password must meet the requirements below">
             </div>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    I agree to the <a href="/terms" target="_blank">Terms of Service</a> and
+                    <a href="/privacy" target="_blank">Privacy Policy</a>
+                </label>
+            </div>
+
             <input type="submit" value="Register">
         </form>
         <% if (locals.error) { %>
@@ -45,6 +54,7 @@
             <% } %>
                 <p class="toggle">Already have an account? <a href="/login">Login</a></p>
     </div>
+    <script src="/js/form-validation.js"></script>
 </body>
 
 </html>
