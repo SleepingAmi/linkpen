@@ -485,6 +485,31 @@ form {
     opacity: 0.9;
 }
 
+.legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.legal-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-accent);
+}
+
+.legal-content h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.legal-content p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
 /* Media Queries
 ------------------------------------------------- */
 @media screen and (min-width: 1460px) {
