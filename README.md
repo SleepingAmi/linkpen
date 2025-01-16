@@ -1,7 +1,7 @@
 # <img src="https://linkpen.xyz/img/sNTuUGsyXN2v.png.png" style="height: 30px;"> linkpen
 One link to help you share everything you create, curate or sell from your YouTube, Hydraulisc and all other social media profiles!
 
-_Fun fact: Originally titled <a href="https://cdn.hydraulisc.net/MNx6GNg9TybX.png" target="_blank">"friendly system"</a>_
+_Fun fact: Originally titled <a href="https://linkpen.xyz/img/MNx6GNg9TybX.png" target="_blank">"friendly system"</a>_
 
 ## [About linkpen](https://github.com/SleepingAmi/linkpen/blob/main/public/docs/index.md#about-linkpen)
 Linkpen is a Free, Open Source, customizable, and user-friendly, link in bio tool.
