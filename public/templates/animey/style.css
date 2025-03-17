@@ -92,13 +92,19 @@ body {
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     background: rgba(0, 0, 0, 0.6) !important;
 }
 
 .footer_container {
-    margin-top: 16rem;
     padding: var(--spacing-md) 0;
     text-align: center;
+}
+
+.main_div_container {
+    margin-top: 4rem !important;
 }
 
 /* Responsive */
@@ -121,5 +127,8 @@ footer {
 
     .link_button {
         padding: var(--spacing-sm) 0;
+    }
+    .main_div_container {
+        margin-top: 6rem !important;
     }
 }
