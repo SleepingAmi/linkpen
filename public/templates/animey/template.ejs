@@ -16,9 +16,11 @@
                 <div class="profile_container">
                     <div class="profile_header">
                         <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
-                            <div class="edit_button">
-                                <a href="/dashboard">Edit Page</a>
-                            </div>
+                            <a href="/dashboard">
+                                <div class="edit_button">
+                                    Edit Page
+                                </div>
+                            </a>
                         <% } %>
 
                         <div class="links_section">
