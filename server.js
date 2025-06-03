@@ -1,6 +1,5 @@
 const express = require('express');
 const ejs = require('ejs');
-const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const bodyParser = require('body-parser');
