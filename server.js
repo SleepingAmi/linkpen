@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 const { version } = require('./package.json')
 const { rootDomain, hostPort, siteTitle, discordInvite, database_key, isPublic } = require('./global-variables.json')
 const cookieParser = require('cookie-parser');
@@ -117,8 +118,14 @@ app.use(cookieParser());
 
 // Session configuration
 app.use(session({
+    store: new SQLiteStore({
+        db: 'sessions.sqlite',
+        dir: __dirname,
+        table: 'sessions',
+        concurrentDB: true
+    }),
     secret: database_key,
-    resave: true,           // Changed to true
+    resave: false,         // Don't resave unchanged sessions
     saveUninitialized: false,
     name: 'connect.sid',    // Explicit cookie name
     cookie: {
