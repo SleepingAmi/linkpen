@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../../views/partials/head', {siteTitle, rootDomain, pageUser}) %>
+        <link rel="stylesheet" href="/templates/terminux/style.css">
+</head>
+
+<body class="animeyTheme">
+    <%- include('../../views/partials/header', { siteTitle, discordInvite, rootDomain, user: loggedInUser }) %>
+
+    <div class="main_div_one" style="background: transparent !important;">
+        <div class="main_div_container">
+            <div class="main_div_content">
+                <div class="profile_container">
+                    <div class="profile_header">
+                        <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
+                            <div class="edit_button">
+                                <a href="/dashboard">
+                                    Edit Page
+                                </a>
+                            </div>
+                        <% } %>
+
+                        <div class="links_section">
+                            <div></div>
+                            <div>
+                                <h1 class="titler"><%- pageUser.username %><% if(pageUser.username.endsWith('s')) { %>'<% } else { %>'s<% } %> links</h1>
+                            </div>
+                            <div class="links_container">
+                                <div class="links_filler">
+                                    <% if (links && links.length> 0) { %>
+                                        <% links.forEach(function(link) { %>
+                                            <div class="link_item">
+                                                <a href="<%- link.url %>" target="_blank" rel="noopener noreferrer" class="link_button_link">
+                                                    <%- link.title %>
+                                                </a>
+                                            </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <div class="no_links">
+                                            <p>No links added yet!</p>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../views/partials/footer', {siteTitle, rootDomain, version}) %>
+</body>
+
+</html>

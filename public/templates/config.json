@@ -33,5 +33,10 @@
         "name": "Ami's Anime Theme",
         "author": "SleepingAmi (Ami)",
         "description": "A mysterious anime theme, featuring chainsaw man elements"
+    },
+    "terminux": {
+        "name": "Terminux (CRT) Theme",
+        "author": "SleepingAmi (Ami)",
+        "description": "A retro, crt inspired theme, with lime green highlights and flickers"
     }
 }
