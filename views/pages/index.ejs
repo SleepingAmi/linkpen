@@ -9,16 +9,40 @@
             <div class="pager" style="outline: none;" tabindex="-1">
                 <%- include('../partials/header') %>
                     <%- include('../partials/cookie-notice') %>
-                        <div class="main_div_one">
-                            <div class="main_div_container">
-                                <div class="main_div_content">
-                                    <%- include('../partials/hero') %>
+                        <section class="hero">
+                            <div class="hero-inner">
+                                <h1 class="hero-title">Connect everything you create.</h1>
+                                <p class="hero-subtitle">
+                                One link for everything — share your work, pages, and profiles from anywhere.
+                                </p>
+                                <a class="cta-button" href="/register">Create your linkpen</a>
+                            </div>
+                        </section>
+                        <section class="features">
+                            <div class="features-inner">
+                                <h2>Features</h2>
+                                <p class="features-subtitle">linkpen is fully customizable and easy to host — just clone, set up, and go live.</p>
+
+                                <div class="feature-grid">
+                                    <div class="feature-card">
+                                        <h3>Customizable</h3>
+                                        <p>Change themes and templates to fit your style.</p>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>All-in-one Link</h3>
+                                        <p>Share every link with a single linkpen profile.</p>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>Free, Forever</h3>
+                                        <p>No fees. No catches. 100% open source.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <%- include('../partials/features', {siteTitle}) %>
-                            <%- include('../partials/openSource') %>
-                                <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
+                        </section>
+                        
+                        
+                        <%- include('../partials/openSource') %>
+                            <%- include('../partials/footer', {siteTitle, rootDomain, version}) %>
             </div>
         </div>
     </body>
