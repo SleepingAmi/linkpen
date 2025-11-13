@@ -114,6 +114,7 @@ body.darkTheme {
 @media screen and (max-width: 768px) {
     .profile_container {
         padding: var(--spacing-sm);
+        max-width: 88svw;
     }
 
     .profile_header {
@@ -121,7 +122,8 @@ body.darkTheme {
     }
 
     .profile_header h1 {
-        font-size: calc(var(--text-xl) * 0.7);
+        font-size: calc(var(--text-xl) * 0.5);
+        word-break: break-word;
     }
 
     .edit_button a {

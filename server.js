@@ -259,6 +259,7 @@ app.get('/:id', async (req, res) => {
     }
 
     // Check if it's a user page
+    // TO-DO: shift everything toLowerCase for redundancy
     db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, pageUser) => {
         if (err) {
             console.error(err);
