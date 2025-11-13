@@ -1,3 +1,10 @@
+.main_div_one {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
+    max-width: 100svw;
+}
+
 .admin_container {
     width: 100%;
     max-width: var(--max-width-content);
@@ -72,6 +79,7 @@
 
 .admin_toggle.active {
     background-color: var(--color-accent);
+    color: var(--color-surface);
 }
 
 .admin_badge {
@@ -88,11 +96,18 @@
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
+    .users_table_container {
+        max-width: 80svw;
+        overflow: scroll !important;
+    }
     .admin_container {
         padding: var(--spacing-sm);
     }
 
     .action_buttons {
         flex-direction: column;
+    }
+    .admin_badge {
+        display: flex;
     }
 }

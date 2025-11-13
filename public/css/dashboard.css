@@ -268,6 +268,11 @@
 
 /* Responsive Adjustments */
 @media screen and (max-width: 768px) {
+    .dashboard_content {
+        max-width: 91svw;
+        overflow-x: scroll;
+    }
+    
     .dashboard_container {
         padding: var(--spacing-sm);
     }
@@ -280,6 +285,14 @@
         flex-direction: column;
     }
 
+    .add_link_form .form_group {
+        flex-direction: column;
+    }
+
+    .form_group input {
+        width: auto;
+    }
+
     .link_content {
         flex-direction: column;
         align-items: stretch;
@@ -288,4 +301,5 @@
     .link_actions {
         justify-content: flex-end;
     }
+    
 }

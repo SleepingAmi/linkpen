@@ -301,6 +301,9 @@ form {
     place-content: space-between;
     flex-direction: column;
     display: flex;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer_content {
@@ -395,7 +398,7 @@ form {
         max-width: 1445px;
     }
 
-    .main_div_three {
+    .footer_container {
         max-width: 1400px;
     }
 }
@@ -430,6 +433,7 @@ form {
 
     /* Tablet */
     .main_div_one {
+        max-width: 100svw;
         min-height: 100vh;
         padding-top: 128px;
         padding-bottom: 128px;
@@ -507,6 +511,8 @@ form {
 
     /* Mobile */
     .main_div_one {
+        overflow-x: hidden;
+        max-width: 100svw;
         min-height: auto;
         padding-top: var(--spacing-xl);
         padding-bottom: var(--spacing-xl);

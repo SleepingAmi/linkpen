@@ -186,10 +186,6 @@ div#page_header_container .page_header {
     text-transform: capitalize;
 }
 
-.mobileNavOptionStyler:hover {
-    background: var(--color-shadow);
-}
-
 .mobileNavButtonOpen {
     border: none;
     background: transparent;
