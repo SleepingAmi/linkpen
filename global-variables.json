@@ -4,7 +4,7 @@
   "siteTitle": "LinkPen",
   "discordInvite": "https://discord.gg/test",
   "database_key": "test_secret_key",
-  "isPublic": true,
+  "isPublic": false,
   "testing": {
     "enabled": false,
     "disableRateLimit": false,
