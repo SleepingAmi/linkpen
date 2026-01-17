@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/SleepingAmi/linkpen#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "body-parser": "^1.20.4",
     "connect-sqlite3": "^0.9.16",
     "cookie-parser": "^1.4.7",
