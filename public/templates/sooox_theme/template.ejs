@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../../views/partials/head', {siteTitle, rootDomain, pageUser}) %>
+        <link rel="stylesheet" href="/templates/sooox_theme/style.css">
+</head>
+
+<body class="soooxTheme">
+    <div class="page_shell">
+        <header class="site_header">
+            <div class="header_inner">
+                <div class="brand">
+                    <div class="brand_mark"><%- siteTitle.charAt(0) %></div>
+                    <a href="<%- rootDomain %>" class="brand_name"><%- siteTitle %></a>
+                </div>
+                <nav class="header_nav">
+                    <% if (loggedInUser) { %>
+                        <% if (loggedInUser.username===pageUser.username) { %>
+                            <a href="/dashboard" class="nav_link">Edit Page</a>
+                        <% } %>
+                        <a href="/api/logout" class="nav_link">Logout</a>
+                    <% } else { %>
+                        <a href="/login" class="nav_link">Login</a>
+                    <% } %>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main_content">
+            <div class="profile_container">
+                <div class="profile_header">
+                    <h1>Welcome to <%- pageUser.username %><% if(pageUser.username.endsWith('s')) { %>'<% } else { %>'s<% } %> page!</h1>
+                    <% if (loggedInUser && loggedInUser.username===pageUser.username) { %>
+                        <div class="edit_button">
+                            <a href="/dashboard">Edit Page</a>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div class="links_section">
+                    <div class="links_container">
+                        <% if (links && links.length> 0) { %>
+                            <% links.forEach(function(link) { %>
+                                <a href="<%- link.url %>" target="_blank" rel="noopener noreferrer" class="link_button">
+                                    <span><%- link.title %></span>
+                                    <svg class="link_arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                                </a>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="no_links">
+                                <p>No links added yet!</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="site_footer">
+            <div class="footer_inner">
+                <p class="footer_brand"><%- siteTitle %></p>
+                <p class="footer_text">Source code on <a href="https://github.com/SleepingAmi/linkpen">GitHub</a>
+                    <span class="footer_version">v<%- version %></span>
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
