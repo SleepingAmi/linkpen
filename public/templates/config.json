@@ -1,42 +1,47 @@
 {
-    "default": {
-        "name": "Catppuccin Frappé (Default)",
-        "author": "Linkpen Dev team",
-        "description": "😸 Soothing pastel theme for the high-spirited!"
-    },
-    "purpleboi": {
-        "name": "purpleboi (TTS Tribute)",
-        "author": "Linkpen Dev team",
-        "description": "Tribute to TallerThanShort's purpleboi theme."
-    },
-    "dark_mocha": {
-        "name": "Dark Mocha",
-        "author": "Linkpen Dev team",
-        "description": "A rich, brown theme."
-    },
-    "vscode_dark": {
-        "name": "VS Code Dark",
-        "author": "sooox",
-        "description": "🎯 A sleek, modern theme inspired by VS Code's interface"
-    },
-    "matrix_monitor": {
-        "name": "Privacymatters theme",
-        "author": "sooox",
-        "description": "🖥️ Modern monitoring dashboard with glowing accents"
-    },
-    "catcafe": {
-        "name": "Cozy Cat Café",
-        "author": "sooox",
-        "description": "🐱 A warm and inviting theme inspired by cat cafés, featuring soft colors and playful design elements"
-    },
-    "animey": {
-        "name": "Ami's Anime Theme",
-        "author": "SleepingAmi (Ami)",
-        "description": "A mysterious anime theme, featuring chainsaw man elements"
-    },
-    "terminux": {
-        "name": "Terminux (CRT) Theme",
-        "author": "SleepingAmi (Ami)",
-        "description": "A retro, crt inspired theme, with lime green highlights and flickers"
-    }
+  "default": {
+    "name": "Catppuccin Frappé (Default)",
+    "author": "Linkpen Dev team",
+    "description": "😸 Soothing pastel theme for the high-spirited!"
+  },
+  "purpleboi": {
+    "name": "purpleboi (TTS Tribute)",
+    "author": "Linkpen Dev team",
+    "description": "Tribute to TallerThanShort's purpleboi theme."
+  },
+  "dark_mocha": {
+    "name": "Dark Mocha",
+    "author": "Linkpen Dev team",
+    "description": "A rich, brown theme."
+  },
+  "vscode_dark": {
+    "name": "VS Code Dark",
+    "author": "sooox",
+    "description": "🎯 A sleek, modern theme inspired by VS Code's interface"
+  },
+  "matrix_monitor": {
+    "name": "Privacymatters theme",
+    "author": "sooox",
+    "description": "🖥️ Modern monitoring dashboard with glowing accents"
+  },
+  "catcafe": {
+    "name": "Cozy Cat Café",
+    "author": "sooox",
+    "description": "🐱 A warm and inviting theme inspired by cat cafés, featuring soft colors and playful design elements"
+  },
+  "animey": {
+    "name": "Ami's Anime Theme",
+    "author": "SleepingAmi (Ami)",
+    "description": "A mysterious anime theme, featuring chainsaw man elements"
+  },
+  "terminux": {
+    "name": "Terminux (CRT) Theme",
+    "author": "SleepingAmi (Ami)",
+    "description": "A retro, crt inspired theme, with lime green highlights and flickers"
+  },
+  "sooox_theme": {
+    "name": "sooox' theme",
+    "author": "sooox",
+    "description": "Minimalist theme used on sooox.cc"
+  }
 }
