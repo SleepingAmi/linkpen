@@ -37,6 +37,9 @@
   },
   "overrides": {
     "tar": "^7.5.3",
-    "minimatch": "^10.2.1"
+    "minimatch": "^10.2.1",
+    "connect-sqlite3": {
+      "sqlite3": "$sqlite3"
+    }
   }
 }
